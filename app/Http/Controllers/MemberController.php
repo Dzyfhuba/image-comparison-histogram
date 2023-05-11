@@ -131,4 +131,14 @@ class MemberController extends Controller
             'message' => 'delete success'
         ]);
     }
+
+    public function kyc_image($id) {
+        $member = Member::find($id);
+
+        if (!$member) {
+            return response([], 204);
+        }
+
+        return response()->file("$this->directory_target/$member->kyc_image");
+    }
 }

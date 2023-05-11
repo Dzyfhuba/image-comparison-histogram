@@ -25,3 +25,4 @@ Route::get('/', function() {
 });
 
 Route::resource('/members', \App\Http\Controllers\MemberController::class);
+Route::get('/members/{id}/kyc_image', [\App\Http\Controllers\MemberController::class, 'kyc_image']);
