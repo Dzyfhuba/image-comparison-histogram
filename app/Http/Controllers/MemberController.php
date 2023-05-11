@@ -149,25 +149,36 @@ class MemberController extends Controller
         [
             $a_colors_r,
             $a_colors_g,
-            $a_colors_b
+            $a_colors_b,
+            $a_width,
+            $a_height,
         ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
             // dd($request->file('kyc_image'));
         [
             $b_colors_r,
             $b_colors_g,
-            $b_colors_b
+            $b_colors_b,
+            $b_width,
+            $b_height,
         ] = $this->get_rgb($request->file('kyc_image')->getPathname());
 
-        // cari elemen di array A yang ada di array B
-        $same_counter = [];
-        
-        // foreach ($a_colors_r as $key => $value) {
-            
-        // }
-        
-        // dd();
+        // START MAGNITUDE
 
+        $r = [];
+        
+        $longest = []; // longest array_count_values()
+        
+        if (array_count_values($a_colors_r) >= array_count_values($b_colors_r)) {
+            $longest = array_count_values($a_colors_r);
+        } else {
+            $longest = array_count_values($b_colors_r);
+        }
 
+        foreach ($longest as $key => $item) {
+            if ($)
+        }
+
+        dd($r);
 
         return response([
             'r' => $b_colors_r,
@@ -224,6 +235,6 @@ class MemberController extends Controller
         $g_array = array_merge(...$colors_g);
         $b_array = array_merge(...$colors_b);
 
-        return [$r_array, $g_array, $b_array];
+        return [$r_array, $g_array, $b_array, $width, $height];
     }
 }
