@@ -146,12 +146,44 @@ class MemberController extends Controller
     public function compare_similarity(Request $request)
     {
         $member = Member::find(3);
-        $image = imagecreatefrompng("$this->directory_target/$member->kyc_image"); // imagecreatefromjpeg/png/
+        [
+            $a_colors_r,
+            $a_colors_g,
+            $a_colors_b
+        ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
+            // dd($request->file('kyc_image'));
+        [
+            $b_colors_r,
+            $b_colors_g,
+            $b_colors_b
+        ] = $this->get_rgb($request->file('kyc_image')->getPathname());
+
+        // cari elemen di array A yang ada di array B
+        $same_counter = [];
+        
+        // foreach ($a_colors_r as $key => $value) {
+            
+        // }
+        
+        // dd();
+
+
+
+        return response([
+            'r' => $b_colors_r,
+            'g' => $b_colors_g,
+            'b' => $b_colors_b
+        ]);
+    }
+
+    public function get_rgb(string $path)
+    {
+        $image = imagecreatefrompng($path); // imagecreatefromjpeg/png/
 
         $width = imagesx($image);
         $height = imagesy($image);
         $colors = [];
-        
+
         $color_r = [];
         $color_g = [];
         $color_b = [];
@@ -170,17 +202,17 @@ class MemberController extends Controller
                 $b = $rgb & 0xFF;
 
                 $x_array = [
-                    'r' => $r, 
-                    'g' => $g, 
+                    'r' => $r,
+                    'g' => $g,
                     'b' => $b
                 ];
                 $y_array[] = $x_array;
-                
+
                 $y_array_r[] = $r;
                 $y_array_g[] = $g;
                 $y_array_b[] = $b;
             }
-            
+
             $colors[] = $y_array;
 
             $colors_r[] = $y_array_r;
@@ -188,10 +220,10 @@ class MemberController extends Controller
             $colors_b[] = $y_array_b;
         }
 
-        return response([
-            'r' => $colors_r,
-            'g' => $colors_g,
-            'b' => $colors_b
-        ]);
+        $r_array = array_merge(...$colors_r);
+        $g_array = array_merge(...$colors_g);
+        $b_array = array_merge(...$colors_b);
+
+        return [$r_array, $g_array, $b_array];
     }
 }
