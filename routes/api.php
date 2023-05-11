@@ -26,3 +26,4 @@ Route::get('/', function() {
 
 Route::resource('/members', \App\Http\Controllers\MemberController::class);
 Route::get('/members/{id}/kyc_image', [\App\Http\Controllers\MemberController::class, 'kyc_image']);
+Route::post('/members/compare_similarity', [\App\Http\Controllers\MemberController::class, 'compare_similarity']);

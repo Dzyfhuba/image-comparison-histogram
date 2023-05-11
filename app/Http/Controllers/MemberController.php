@@ -89,7 +89,7 @@ class MemberController extends Controller
             if (!$member) {
                 return response([], 204);
             }
-            
+
             if ($member->kyc_image && file_exists("$this->directory_target/$member->kyc_image")) {
                 unlink("$this->directory_target/$member->kyc_image");
             }
@@ -97,7 +97,7 @@ class MemberController extends Controller
             $image = $request->file('kyc_image');
 
 
-            $filename = Str::uuid().'.'.$image->getClientOriginalExtension();
+            $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
             $image->move($this->directory_target, $filename);
 
             $member->update([
@@ -122,7 +122,7 @@ class MemberController extends Controller
     {
         $member = Member::find($id);
 
-        if($member && file_exists("$this->directory_target/$member->kyc_image")) {
+        if ($member && file_exists("$this->directory_target/$member->kyc_image")) {
             unlink("$this->directory_target/$member->kyc_image");
             $member->delete();
         }
@@ -132,7 +132,8 @@ class MemberController extends Controller
         ]);
     }
 
-    public function kyc_image($id) {
+    public function kyc_image($id)
+    {
         $member = Member::find($id);
 
         if (!$member) {
@@ -140,5 +141,57 @@ class MemberController extends Controller
         }
 
         return response()->file("$this->directory_target/$member->kyc_image");
+    }
+
+    public function compare_similarity(Request $request)
+    {
+        $member = Member::find(3);
+        $image = imagecreatefrompng("$this->directory_target/$member->kyc_image"); // imagecreatefromjpeg/png/
+
+        $width = imagesx($image);
+        $height = imagesy($image);
+        $colors = [];
+        
+        $color_r = [];
+        $color_g = [];
+        $color_b = [];
+
+        for ($y = 0; $y < $height; $y++) {
+            $y_array = [];
+
+            $y_array_r = [];
+            $y_array_g = [];
+            $y_array_b = [];
+
+            for ($x = 0; $x < $width; $x++) {
+                $rgb = imagecolorat($image, $x, $y);
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+
+                $x_array = [
+                    'r' => $r, 
+                    'g' => $g, 
+                    'b' => $b
+                ];
+                $y_array[] = $x_array;
+                
+                $y_array_r[] = $r;
+                $y_array_g[] = $g;
+                $y_array_b[] = $b;
+            }
+            
+            $colors[] = $y_array;
+
+            $colors_r[] = $y_array_r;
+            $colors_g[] = $y_array_g;
+            $colors_b[] = $y_array_b;
+        }
+
+        return response([
+            'r' => $colors_r,
+            'g' => $colors_g,
+            'b' => $colors_b
+        ]);
     }
 }
