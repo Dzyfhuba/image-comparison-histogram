@@ -152,6 +152,7 @@ class MemberController extends Controller
             $a_colors_b,
             $a_width,
             $a_height,
+        // ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
         ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
         // dd($request->file('kyc_image'));
         [
@@ -176,7 +177,6 @@ class MemberController extends Controller
                 )
             )
         );
-        // dd
 
         // GET A AND B MAGNITUDES
         $magnitudes = array_map(function ($item) use ($a_colors_r, $b_colors_r) {
@@ -207,7 +207,11 @@ class MemberController extends Controller
             $a_determinant += $a_square;
             $b_determinant += $b_square;
         }
+        $a_determinant = sqrt($a_determinant);
+        $b_determinant = sqrt($b_determinant);
         
+        $result = $top_total / ($a_determinant * $b_determinant);
+        dd($top_total, $a_determinant, $b_determinant, $result);
         
         return response([
             'r' => $b_colors_r,
