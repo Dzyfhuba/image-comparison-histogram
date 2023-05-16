@@ -153,7 +153,7 @@ class MemberController extends Controller
             $a_width,
             $a_height,
         ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
-            // dd($request->file('kyc_image'));
+        // dd($request->file('kyc_image'));
         [
             $b_colors_r,
             $b_colors_g,
@@ -164,22 +164,51 @@ class MemberController extends Controller
 
         // START MAGNITUDE
 
-        $r = [];
-        
-        $longest = []; // longest array_count_values()
-        
-        if (array_count_values($a_colors_r) >= array_count_values($b_colors_r)) {
-            $longest = array_count_values($a_colors_r);
-        } else {
-            $longest = array_count_values($b_colors_r);
+        $r = array_values(
+            array_unique(
+                array_merge(
+                    array_keys(
+                        array_count_values($a_colors_r)
+                    ),
+                    array_keys(
+                        array_count_values($b_colors_r)
+                    )
+                )
+            )
+        );
+        // dd
+
+        // GET A AND B MAGNITUDES
+        $magnitudes = array_map(function ($item) use ($a_colors_r, $b_colors_r) {
+            $a = array_count_values($a_colors_r);
+            $a_count = isset($a[$item]) ? $a[$item] : 0;
+
+            $b = array_count_values($b_colors_r);
+            $b_count = isset($b[$item]) ? $b[$item] : 0;
+
+            return [
+                'a' => $a_count,
+                'b' => $b_count
+            ];
+        }, $r);
+
+        $top_total = 0;
+        foreach ($magnitudes as $key => $magnitude) {
+            $multiply_value = $magnitude['a'] * $magnitude['b'];
+            $top_total += $multiply_value;
         }
 
-        foreach ($longest as $key => $item) {
-            if ($)
+        $a_determinant = 0;
+        $b_determinant = 0;
+        foreach ($magnitudes as $key => $magnitude) {
+            $a_square = pow($magnitude['a'], 2);
+            $b_square = pow($magnitude['b'], 2);
+
+            $a_determinant += $a_square;
+            $b_determinant += $b_square;
         }
-
-        dd($r);
-
+        
+        
         return response([
             'r' => $b_colors_r,
             'g' => $b_colors_g,

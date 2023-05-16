@@ -33,7 +33,8 @@ Route::get('/', function() {
     $list1_keys = array_keys($list1);
     $list2_keys = array_keys($list2);
 
-    dd(array_unique(array_merge($list1_keys, $list2_keys))); // do this
+    // dd(array_unique(array_merge($list1_keys, $list2_keys))); // do this
+    
 
     return response()->json([
         'hello' => 'world'
