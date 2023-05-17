@@ -152,8 +152,8 @@ class MemberController extends Controller
             $a_colors_b,
             $a_width,
             $a_height,
-        // ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
         ] = $this->get_rgb("$this->directory_target/$member->kyc_image");
+        // ] = $this->get_rgb("$this->directory_target/DSC08729.jpg");
         // dd($request->file('kyc_image'));
         [
             $b_colors_r,
@@ -164,26 +164,36 @@ class MemberController extends Controller
         ] = $this->get_rgb($request->file('kyc_image')->getPathname());
 
         // START MAGNITUDE
+        $r_magnitude = $this->get_magnitude($a_colors_r, $b_colors_r);
+        $g_magnitude = $this->get_magnitude($a_colors_g, $b_colors_g);
+        $b_magnitude = $this->get_magnitude($a_colors_b, $b_colors_b);
 
+        // RESULT
+        $result = array_sum([$r_magnitude, $g_magnitude, $b_magnitude]) / 3;
+        
+        return response($result);
+    }
+
+    public function get_magnitude($a, $b) {
         $r = array_values(
             array_unique(
                 array_merge(
                     array_keys(
-                        array_count_values($a_colors_r)
+                        array_count_values($a)
                     ),
                     array_keys(
-                        array_count_values($b_colors_r)
+                        array_count_values($b)
                     )
                 )
             )
         );
 
         // GET A AND B MAGNITUDES
-        $magnitudes = array_map(function ($item) use ($a_colors_r, $b_colors_r) {
-            $a = array_count_values($a_colors_r);
+        $magnitudes = array_map(function ($item) use ($a, $b) {
+            $a = array_count_values($a);
             $a_count = isset($a[$item]) ? $a[$item] : 0;
 
-            $b = array_count_values($b_colors_r);
+            $b = array_count_values($b);
             $b_count = isset($b[$item]) ? $b[$item] : 0;
 
             return [
@@ -211,18 +221,14 @@ class MemberController extends Controller
         $b_determinant = sqrt($b_determinant);
         
         $result = $top_total / ($a_determinant * $b_determinant);
-        dd($top_total, $a_determinant, $b_determinant, $result);
-        
-        return response([
-            'r' => $b_colors_r,
-            'g' => $b_colors_g,
-            'b' => $b_colors_b
-        ]);
+        // dd($top_total, $a_determinant, $b_determinant, $result);
+
+        return $result;
     }
 
     public function get_rgb(string $path)
     {
-        $image = imagecreatefrompng($path); // imagecreatefromjpeg/png/
+        $image = imagecreatefrompng(($path)); // imagecreatefromjpeg/png/
 
         $width = imagesx($image);
         $height = imagesy($image);
