@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Str;
@@ -170,7 +171,7 @@ class MemberController extends Controller
 
         // RESULT
         $result = array_sum([$r_magnitude, $g_magnitude, $b_magnitude]) / 3;
-        
+
         return response($result);
     }
 
@@ -219,7 +220,7 @@ class MemberController extends Controller
         }
         $a_determinant = sqrt($a_determinant);
         $b_determinant = sqrt($b_determinant);
-        
+
         $result = $top_total / ($a_determinant * $b_determinant);
         // dd($top_total, $a_determinant, $b_determinant, $result);
 
