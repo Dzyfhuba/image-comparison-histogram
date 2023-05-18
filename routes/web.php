@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\KYCController;
-use App\Http\Controllers\MemberController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,7 +13,8 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [KYCController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::inertia('/', 'Dashboard');
+Route::inertia('/users', 'Members');
 
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';

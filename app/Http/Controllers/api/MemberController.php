@@ -30,8 +30,8 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|alpha_num',
-            'kyc_image' => 'required|mimes:png,jpg,jpeg'
+            'username' => 'required|alpha_num|unique:members,username',
+            'kyc_image' => 'required|mimes:jpeg'
         ]);
 
         if ($validator->fails()) {
@@ -229,7 +229,7 @@ class MemberController extends Controller
 
     public function get_rgb(string $path)
     {
-        $image = imagecreatefrompng(($path)); // imagecreatefromjpeg/png/
+        $image = imagecreatefrompng($path); // imagecreatefromjpeg/png/
 
         $width = imagesx($image);
         $height = imagesy($image);

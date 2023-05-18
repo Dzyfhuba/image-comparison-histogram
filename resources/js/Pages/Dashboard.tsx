@@ -1,10 +1,13 @@
 import React from 'react'
+import MemberForm from '@/Containers/MemberForm'
+import Guest from '@/Layouts/Guest'
 
-type Props = {}
-
-const Dashboard = (props: Props) => {
+const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <Guest className='min-h-screen px-3'>
+      <h1>Image Comparison</h1>
+      <MemberForm />
+    </Guest>
   )
 }
 
