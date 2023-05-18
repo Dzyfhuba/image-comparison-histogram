@@ -9,8 +9,8 @@ const Button = (props: Props) => {
     return (
       <button
         {...props}
-        className={`bg-primary px-5 border border-primary hover:bg-white-1 hover:text-primary
-        transition-colors duration-300 rounded-md text-white`}>
+        className={`bg-primary px-5 rounded-md border border-primary hover:bg-white-1 hover:text-primary
+        transition-colors duration-300 text-white`}>
         {props.children}
       </button>
     )
