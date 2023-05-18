@@ -9,7 +9,9 @@ const Guest = (props: Props) => {
       <header>
         <Navbar />
       </header>
-      {props.children}
+      <main className='px-3'>
+        {props.children}
+      </main>
     </div>
   )
 }
