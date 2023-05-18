@@ -29,6 +29,7 @@
     "dependencies": {
         "easy-peasy": "^6.0.0",
         "react-icons": "^4.8.0",
-        "react-medium-image-zoom": "^5.1.6"
+        "react-medium-image-zoom": "^5.1.6",
+        "react-select": "^5.7.3"
     }
 }

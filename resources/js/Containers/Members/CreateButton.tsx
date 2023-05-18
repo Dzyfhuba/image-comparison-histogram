@@ -1,8 +1,7 @@
 import Button from '@/Components/Button'
+import { useStoreActions } from '@/Redux/hook'
 import React, { SyntheticEvent } from 'react'
 import { GoPlus } from 'react-icons/go'
-import Form from './Form'
-import { useStoreActions } from '@/Redux/hook'
 
 
 const CreateButton = () => {
@@ -16,7 +15,7 @@ const CreateButton = () => {
 
   return (
     <Button
-      className={`bg-primary rounded-full p-3 outline outline-primary
+      className={`bg-primary rounded-full p-3 border border-primary
       fixed bottom-16 right-2 hover:bg-white-1 hover:text-primary
         transition-colors duration-300 text-white`}
       onClick={handleClick}

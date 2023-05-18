@@ -14,14 +14,18 @@ const Modal = (props: Props) => {
   const styleDefault:CSSProperties = {
     top: 32,
     left: '50%',
+    // height: '1000px',
     transform: 'translateX(-50%)',
-    overflow: 'hidden'
+    overflowX: 'hidden',
+    overflowY: 'hidden'
   }
   const styleOpen: CSSProperties= {
     width: '80vw',
+    padding: '12px 12px'
   }
   const styleClose: CSSProperties= {
     width: 0,
+    padding: '12px 0'
   }
   const [style, setStyle] = useState<CSSProperties>({})
   const [modalVisibilityEnd, setModalVisibilityEnd] = useState(false)
@@ -42,7 +46,7 @@ const Modal = (props: Props) => {
     <>
       <div
         className={`transition-all duration-300 bg-white-1 z-[100] fixed
-          p-3 rounded-md
+          rounded-md overflow-hidden whitespace-nowrap
           ${modalVisibilityEnd || modalVisibility ? '' : ' hidden'}`}
         style={{ ...style, ...styleDefault }}
       >

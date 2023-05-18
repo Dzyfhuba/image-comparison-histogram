@@ -3,13 +3,15 @@ import CreateButton from '@/Containers/Members/CreateButton'
 import Form from '@/Containers/Members/Form'
 import MemberInterface from '@/Interfaces/MemberInterface'
 import Guest from '@/Layouts/Guest'
+import { useStoreActions, useStoreState } from '@/Redux/hook'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
 const Members = () => {
-  const [members, setMembers] = useState<MemberInterface[]>([])
+  const { members } = useStoreState(state => state)
+  const { setMembers } = useStoreActions(state => state)
 
   const fetchData = async () => {
     const members = await axios.get('/api/members')

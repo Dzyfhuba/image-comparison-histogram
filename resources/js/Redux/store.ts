@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   createStore,
   action,
@@ -17,9 +18,11 @@ interface MemberInterface {
 }
 
 export interface Model {
-    members: MemberInterface[];
-    setMembers: Action<Model, MemberInterface[]>;
-    modalVisibility: boolean,
+    members: MemberInterface[]
+    setMembers: Action<Model, MemberInterface[]>
+    fetchMembers: Thunk<Model>
+
+    modalVisibility: boolean
     setModalVisibility: Action<Model, boolean>
 }
 
@@ -27,6 +30,18 @@ const store = createStore<Model>({
   members: [],
   setMembers: action((state, payload) => {
     state.members = payload;
+  }),
+  fetchMembers: thunk(async (actions) => {
+    const data = await axios.get('/api/members')
+      .then((res) => {
+        return res.data
+      })
+      .catch(err => {
+        console.error(err)
+        return []
+      })
+
+    actions.setMembers(data)
   }),
 
   modalVisibility: false,
