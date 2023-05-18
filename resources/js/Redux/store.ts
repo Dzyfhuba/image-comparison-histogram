@@ -19,6 +19,8 @@ interface MemberInterface {
 export interface Model {
     members: MemberInterface[];
     setMembers: Action<Model, MemberInterface[]>;
+    modalVisibility: boolean,
+    setModalVisibility: Action<Model, boolean>
 }
 
 const store = createStore<Model>({
@@ -26,6 +28,11 @@ const store = createStore<Model>({
   setMembers: action((state, payload) => {
     state.members = payload;
   }),
+
+  modalVisibility: false,
+  setModalVisibility: action((state, payload) => {
+    state.modalVisibility = payload
+  })
 });
 
 export default store

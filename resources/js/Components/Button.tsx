@@ -17,7 +17,10 @@ const Button = (props: Props) => {
   }
 
   return (
-    <button {...props}>
+    <button
+      {...props}
+      className={`${props.className}`}
+    >
       {props.children}
     </button>
   )

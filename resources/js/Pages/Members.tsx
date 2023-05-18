@@ -1,5 +1,6 @@
 import Button from '@/Components/Button'
 import CreateButton from '@/Containers/Members/CreateButton'
+import Form from '@/Containers/Members/Form'
 import MemberInterface from '@/Interfaces/MemberInterface'
 import Guest from '@/Layouts/Guest'
 import axios from 'axios'
@@ -55,6 +56,7 @@ const Members = () => {
         }
       </ul>
       <CreateButton />
+      <Form />
     </Guest>
   )
 }
