@@ -4,7 +4,8 @@ import MemberInterface from '@/Interfaces/MemberInterface'
 import Guest from '@/Layouts/Guest'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 const Members = () => {
   const [members, setMembers] = useState<MemberInterface[]>([])
@@ -38,11 +39,13 @@ const Members = () => {
               <span>{`Username: ${member.username}`}</span>
               <span>{new Date(member.updated_at).toLocaleString('id')}</span>
               <span>
-                <img
-                  src={`/api/members/${member.id}/kyc_image`}
-                  alt={member.username}
-                  className='w-16 h-16 object-contain mx-auto'
-                />
+                <Zoom>
+                  <img
+                    src={`/api/members/${member.id}/kyc_image`}
+                    alt={member.username}
+                    className='w-16 h-16 object-contain mx-auto'
+                  />
+                </Zoom>
               </span>
               <span className='flex-grow flex items-end justify-end'>
                 <Button level='primary'>Edit</Button>
