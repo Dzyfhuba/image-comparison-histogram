@@ -17,7 +17,8 @@ const Modal = (props: Props) => {
     // height: '1000px',
     transform: 'translateX(-50%)',
     overflowX: 'hidden',
-    overflowY: 'hidden'
+    overflowY: 'hidden',
+    maxWidth: 400
   }
   const styleOpen: CSSProperties= {
     width: '80vw',

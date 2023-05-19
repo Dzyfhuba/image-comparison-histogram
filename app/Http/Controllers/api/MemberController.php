@@ -20,7 +20,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
+        $members = Member::orderBy('updated_at', 'desc')->get();
         return response($members);
     }
 
@@ -31,7 +31,7 @@ class MemberController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|alpha_num|unique:members,username',
-            'kyc_image' => 'required|mimes:jpeg'
+            'kyc_image' => 'required|mimes:png'
         ]);
 
         if ($validator->fails()) {

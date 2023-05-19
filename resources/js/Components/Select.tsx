@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import SelectLibrary, { ActionMeta, GroupBase, OptionsOrGroups, PropsValue } from 'react-select'
 import StateManagedSelect from 'react-select/dist/declarations/src/stateManager'
 
-interface Props extends StateManagedSelect {
-  defaultValue?: PropsValue<null>,
-  onChange?: ((newValue: null, actionMeta: ActionMeta<null>) => void),
-  options: OptionsOrGroups<null, GroupBase<null>>
+interface Props {
+  defaultValue?: never,
+  onChange?: never,
+  options?: never
 }
 
 // type Props = <Option = unknown, IsMulti extends boolean = false, Group extends GroupBase<Option> = GroupBase<Option>>(props: StateManagerProps<Option, IsMulti, Group> & RefAttributes<SelectLibrary<Option, IsMulti, Group>>) => ReactElement;
@@ -14,14 +14,22 @@ interface Props extends StateManagedSelect {
 const Select = (props: Props) => {
   return (
     <SelectLibrary
-      {...props}
+      isClearable
       styles={{
         menu: (base) => base = {
-          zIndex: 101,
+          zIndex: '101 !important',
           borderRadius: 8,
           overflow: 'hidden',
         },
+        control: base => base = {
+          ...base,
+          flexWrap: 'nowrap'
+        }
       }}
+
+      defaultValue={props.defaultValue}
+      onChange={props.onChange}
+      options={props.options}
     />
   )
 }
