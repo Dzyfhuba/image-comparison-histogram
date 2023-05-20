@@ -2,15 +2,31 @@ import Button from '@/Components/Button'
 import { useStoreActions } from '@/Redux/hook'
 import React, { SyntheticEvent } from 'react'
 import { GoPlus } from 'react-icons/go'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import Form from './Form'
+import store from '@/Redux/store'
+import { StoreProvider } from 'easy-peasy'
 
 
 const CreateButton = () => {
   const { setModalVisibility } = useStoreActions(actions => actions)
 
+  const ReactSwal = withReactContent(Swal)
+
   const handleClick = (e: SyntheticEvent) => {
     console.log(e.target);
 
-    setModalVisibility(true)
+    const input = ReactSwal.fire({
+      title: 'Add New Member',
+      showConfirmButton: false,
+      html: (
+        <StoreProvider store={store}>
+          <Form mode='create' />
+        </StoreProvider>
+      )
+    })
+
   }
 
   return (
