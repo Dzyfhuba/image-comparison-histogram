@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "easy-peasy": "^6.0.0",
+        "nanoid": "^3.3.6",
         "react-icons": "^4.8.0",
         "react-images-uploading": "^3.1.7",
         "react-medium-image-zoom": "^5.1.6",

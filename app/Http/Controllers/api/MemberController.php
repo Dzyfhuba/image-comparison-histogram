@@ -75,8 +75,7 @@ class MemberController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'username' => 'required|alpha_num',
-                'kyc_image' => 'required|mimes:png,jpg,jpeg'
+                'kyc_image' => 'required|mimes:png'
             ]);
 
             if ($validator->fails()) {
@@ -133,15 +132,9 @@ class MemberController extends Controller
         ]);
     }
 
-    public function kyc_image($id)
+    public function kyc_image($image)
     {
-        $member = Member::find($id);
-
-        if (!$member) {
-            return response([], 204);
-        }
-
-        return response()->file("$this->directory_target/$member->kyc_image");
+        return response()->file("$this->directory_target/$image");
     }
 
     public function compare_similarity(Request $request)

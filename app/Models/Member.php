@@ -13,4 +13,8 @@ class Member extends Model
         'username',
         'kyc_image'
     ];
+
+    protected $cast = [
+        'id' => 'integer'
+    ];
 }

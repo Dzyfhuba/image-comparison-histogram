@@ -9,9 +9,11 @@ import { MdImage, MdUpload, MdDelete } from 'react-icons/md';
 import { GrPowerReset } from 'react-icons/gr';
 import ReactImageUploading, { ImageListType } from 'react-images-uploading';
 import Swal from 'sweetalert2';
+import MemberInterface from '@/Interfaces/MemberInterface';
 
 type Props = {
   mode: 'create' | 'edit'
+  member?: MemberInterface
 }
 
 const Form = (props: Props) => {
@@ -33,7 +35,7 @@ const Form = (props: Props) => {
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
     console.log({ members, images })
-    if (!(images.length && username !== '')) {
+    if (!(images.length && username !== '') && props.mode === 'create') {
       setError({
         images: !images.length ? 'Upload One' : '',
         member: !username ? 'Required' : '',
@@ -42,21 +44,25 @@ const Form = (props: Props) => {
     }
 
     const body = new FormData()
-    body.append('username', username)
+    if (props.mode === 'create') {
+      body.append('username', username)
+    } else {
+      body.append('_method', 'PUT')
+    }
     body.append('kyc_image', images[0].file || '', '' + images[0])
     Swal.update({
       title: 'Loading',
       html: undefined
     })
     Swal.showLoading()
-    axios.post('/api/members', body)
+    axios.post(props.mode === 'create' ? '/api/members' : `/api/members/${props.member?.id}`, body)
       .then(res => {
         console.log(res.data)
         fetchMembers()
         Swal.hideLoading()
         Swal.update({
           icon: 'success',
-          title: 'Add New Member Successfully'
+          title: props.mode === 'create' ? 'Add New Member Successfully' : 'Update Member Successfully'
         })
       })
       .catch(err => {
@@ -93,9 +99,14 @@ const Form = (props: Props) => {
       member: ''
     })
   }
-
+  console.log(props.member)
   return (
-    <form className='flex flex-col gap-3 p-3 text-start' onSubmit={onSubmit} onReset={onReset} autoComplete='off'>
+    <form
+      className='flex flex-col gap-3 p-3 text-start'
+      onSubmit={onSubmit}
+      onReset={onReset}
+      autoComplete='off'
+    >
       <Label htmlFor='member'>Member</Label>
       {
         <Input
@@ -103,7 +114,8 @@ const Form = (props: Props) => {
           name='member'
           onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
           autoComplete="new-password"
-
+          disabled={props.mode === 'edit'}
+          value={props.mode === 'edit' ? props.member?.username : undefined}
           required
         />
       }

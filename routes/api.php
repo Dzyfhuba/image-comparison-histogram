@@ -45,5 +45,5 @@ Route::get('/members', [\App\Http\Controllers\api\MemberController::class, 'inde
 Route::post('/members', [\App\Http\Controllers\api\MemberController::class, 'store']);
 Route::put('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 'update']);
 Route::delete('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 'delete']);
-Route::get('/members/{id}/kyc_image', [\App\Http\Controllers\api\MemberController::class, 'kyc_image']);
+Route::get('/members/image/{image}', [\App\Http\Controllers\api\MemberController::class, 'kyc_image']);
 Route::post('/members/compare_similarity', [\App\Http\Controllers\api\MemberController::class, 'compare_similarity']);

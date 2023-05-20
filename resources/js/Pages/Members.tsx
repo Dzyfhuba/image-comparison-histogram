@@ -4,14 +4,21 @@ import Form from '@/Containers/Members/Form'
 import MemberInterface from '@/Interfaces/MemberInterface'
 import Guest from '@/Layouts/Guest'
 import { useStoreActions, useStoreState } from '@/Redux/hook'
+import store from '@/Redux/store'
 import axios from 'axios'
+import { StoreProvider } from 'easy-peasy'
 import React, { useEffect, useState } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { nanoid } from 'nanoid'
 
 const Members = () => {
   const { members } = useStoreState(state => state)
   const { setMembers } = useStoreActions(state => state)
+
+  const ReactSwal = withReactContent(Swal)
 
   const fetchData = async () => {
     const members = await axios.get('/api/members')
@@ -29,6 +36,18 @@ const Members = () => {
     fetchData()
   }, [])
 
+  const handleEdit = (member:MemberInterface) => {
+    ReactSwal.fire({
+      title: 'Edit Member',
+      showConfirmButton: false,
+      html: (
+        <StoreProvider store={store}>
+          <Form mode='edit' member={member} />
+        </StoreProvider>
+      )
+    })
+  }
+
   return (
     <Guest className='min-h-screen px-3'>
       <h1 className='text-2xl font-black underline'>Kelola Members</h1>
@@ -44,14 +63,15 @@ const Members = () => {
               <span>
                 <Zoom>
                   <img
-                    src={`/api/members/${member.id}/kyc_image`}
+                    src={`/api/members/image/${member.kyc_image}`}
                     alt={member.username}
                     className='w-16 h-16 object-contain mx-auto'
+                    key={nanoid()}
                   />
                 </Zoom>
               </span>
               <span className='flex-grow flex items-end justify-end'>
-                <Button level='primary'>Edit</Button>
+                <Button level='primary' onClick={() => handleEdit(member)}>Edit</Button>
               </span>
             </li>
           ))

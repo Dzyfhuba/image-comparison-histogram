@@ -40,7 +40,6 @@ const store = createStore<Model>({
         console.error(err)
         return []
       })
-
     actions.setMembers(data)
   }),
 
