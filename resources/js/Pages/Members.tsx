@@ -14,6 +14,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { nanoid } from 'nanoid'
 import { MdDelete } from 'react-icons/md'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const Members = () => {
   const { members } = useStoreState(state => state)
@@ -108,11 +109,12 @@ const Members = () => {
               <span>{new Date(member.updated_at).toLocaleString('id')}</span>
               <span>
                 <Zoom>
-                  <img
+                  <LazyLoadImage
                     src={`/api/members/image/${member.kyc_image}`}
                     alt={member.username}
                     className='w-16 h-16 object-contain mx-auto'
                     key={nanoid()}
+                    useIntersectionObserver
                   />
                 </Zoom>
               </span>
