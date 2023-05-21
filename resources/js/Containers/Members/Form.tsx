@@ -124,7 +124,7 @@ const Form = (props: Props) => {
       <ReactImageUploading
         value={images}
         onChange={onChange}
-        acceptType={['png']}
+        acceptType={['jpeg']}
       >
         {({
           onImageUpload,

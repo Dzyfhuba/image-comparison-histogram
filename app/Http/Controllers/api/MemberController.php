@@ -31,7 +31,7 @@ class MemberController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|alpha_num|unique:members,username',
-            'kyc_image' => 'required|mimes:png'
+            'kyc_image' => 'required|mimes:jpeg'
         ]);
 
         if ($validator->fails()) {
@@ -73,7 +73,7 @@ class MemberController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'kyc_image' => 'required|mimes:png'
+                'kyc_image' => 'required|mimes:jpeg'
             ]);
 
             if ($validator->fails()) {
@@ -220,7 +220,7 @@ class MemberController extends Controller
 
     public function get_rgb(string $path)
     {
-        $image = imagecreatefrompng($path); // imagecreatefromjpeg/png/
+        $image = imagecreatefromjpeg($path); // imagecreatefromjpeg/png/
 
         $width = imagesx($image);
         $height = imagesy($image);
