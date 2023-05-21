@@ -21,7 +21,8 @@ const Dashboard = () => {
   const [member, setMember] = useState<MemberInterface>()
   const [images, setImages] = useState<ImageListType>([])
 
-  const [score, setScore] = useState<number>()
+  const [score, setScore] = useState<number>(0)
+  const [isLoading, setLoading] = useState(false)
 
   const fetchData = async (memberId: number) => {
     if (!memberId) return
@@ -52,10 +53,13 @@ const Dashboard = () => {
 
   const handleCalculate = async () => {
     const body = new FormData()
+    // console.log('asd')
     
-    body.append('kyc_image', images[0].file || '', '' + images[0])
+    body.append('id', selectedMember?.value ? '' + selectedMember.value : '0')
+    body.append('kyc_image', images[0].file || '', '' + 'test')
 
-    const score = await axios.post('/members/compare_similarity', body)
+    setLoading(true)
+    const score = await axios.post('/api/members/compare_similarity', body)
       .then(res => {
         return res.data
       })
@@ -65,6 +69,7 @@ const Dashboard = () => {
       })
 
     setScore(score)
+    setLoading(false)
   }
   
   return (
@@ -119,6 +124,7 @@ const Dashboard = () => {
                         />
                         <button
                           className={`absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl`}
+                          onClick={onImageRemoveAll}
                         >
                           <MdDelete size={20} />
                         </button>
@@ -147,6 +153,15 @@ const Dashboard = () => {
           <Button level='primary' onClick={() => handleCalculate()}>
             Calculate
           </Button>
+          <div>
+            {
+              isLoading ? (
+                <span>Loading</span>
+              ) : (
+                <span>Score: {score*100}%</span>
+              )
+            }
+          </div>
         </div>
       </div>
     </Guest>

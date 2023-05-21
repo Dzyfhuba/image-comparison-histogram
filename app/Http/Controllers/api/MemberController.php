@@ -137,7 +137,7 @@ class MemberController extends Controller
 
     public function compare_similarity(Request $request)
     {
-        $member = Member::find(3);
+        $member = Member::find($request->id);
         [
             $a_colors_r,
             $a_colors_g,
