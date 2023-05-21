@@ -22,7 +22,7 @@ composer install
 ```
 4. Install NPM Dependencies
 ```shell
-npm install && npm run dev
+npm install && npm run build
 ```
 5. Create a copy of your .env file
 ```shell
