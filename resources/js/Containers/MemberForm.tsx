@@ -1,24 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useStoreState } from '../Redux/hook'
+import Select, { ActionMeta } from 'react-select'
+// import Select from '@/Components/Select'
 
-// type Props = {}
+type Props = {
+  setSelectedMember: React.Dispatch<React.SetStateAction<null>>
+  // selectedMember: null
+}
 
-const MemberForm = () => {
+const MemberForm = (props: Props) => {
   const { members } = useStoreState(state => state)
 
   return (
     <form className='shadow border p-3 rounded'>
       <label htmlFor="member">Pilih Member</label>
-      <select name="member">
-        <option hidden>Select Members</option>
-        {
-          members.map(member => (
-            <option value={member.id} key={member.id}>
-              {member.username}
-            </option>
-          ))
+      <Select
+        name='member'
+        onChange={props.setSelectedMember}
+        options={
+          members.map(member => {
+            return {
+              value: member.id,
+              label: member.username
+            }
+          }) as never
         }
-      </select>
+        isClearable
+      />
     </form>
   )
 }

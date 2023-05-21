@@ -21,9 +21,6 @@ export interface Model {
     members: MemberInterface[]
     setMembers: Action<Model, MemberInterface[]>
     fetchMembers: Thunk<Model>
-
-    modalVisibility: boolean
-    setModalVisibility: Action<Model, boolean>
 }
 
 const store = createStore<Model>({
@@ -42,11 +39,6 @@ const store = createStore<Model>({
       })
     actions.setMembers(data)
   }),
-
-  modalVisibility: false,
-  setModalVisibility: action((state, payload) => {
-    state.modalVisibility = payload
-  })
 });
 
 export default store
