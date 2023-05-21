@@ -43,6 +43,7 @@ Route::get('/', function() {
 
 Route::get('/members', [\App\Http\Controllers\api\MemberController::class, 'index']);
 Route::post('/members', [\App\Http\Controllers\api\MemberController::class, 'store']);
+Route::get('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 'show']);
 Route::put('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 'update']);
 Route::delete('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 'destroy']);
 Route::get('/members/image/{image}', [\App\Http\Controllers\api\MemberController::class, 'kyc_image']);

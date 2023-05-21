@@ -63,9 +63,7 @@ class MemberController extends Controller
     {
         $data = Member::find($id);
 
-        return response([
-            'data' => $data,
-        ]);
+        return response($data);
     }
 
     /**

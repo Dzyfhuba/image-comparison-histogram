@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import { useStoreState } from '../Redux/hook'
-import Select, { ActionMeta } from 'react-select'
+import Select, { ActionMeta, SingleValue } from 'react-select'
 // import Select from '@/Components/Select'
 
+type Option = {
+  label: string
+  value: number
+}
+
 type Props = {
-  setSelectedMember: React.Dispatch<React.SetStateAction<null>>
+  setSelectedMember: React.Dispatch<React.SetStateAction<SingleValue<Option>>>
+
   // selectedMember: null
 }
 
