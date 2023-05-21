@@ -70,8 +70,7 @@ const Form = (props: Props) => {
         Swal.hideLoading()
         Swal.update({
           icon: 'error',
-          title: 'Error',
-          html: JSON.stringify(err.response.data || 500)
+          title: 'Error 500',
         })
       })
   }
