@@ -88,7 +88,7 @@ const Dashboard = () => {
             Image A
           </h2>
           <img
-            className='h-28 outline outline-1 object-contain'
+            className='h-28 outline outline-1 object-contain w-full h-28'
             src={
               member ?
                 `/api/members/image/${member?.kyc_image}` : 
@@ -101,53 +101,52 @@ const Dashboard = () => {
           <h2 className='text-center underline'>
             Image B
           </h2>
-          <Zoom>
-            <ReactImageUploading
-              value={images}
-              onChange={onChange}
-              dataURLKey="data_url"
-            >
-              {({
-                imageList,
-                onImageUpload,
-                onImageRemoveAll,
-                isDragging,
-                dragProps,
-              }) => (
-                // write your building UI
-                <div className='outline outline-1 h-28 flex items-center relative'>
-                  {
-                    imageList.length ? (
-                      <>
-                        <img
-                          src={imageList[0]['data_url'] || ''}
-                        />
-                        <button
-                          className={`absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl`}
-                          onClick={onImageRemoveAll}
-                        >
-                          <MdDelete size={20} />
-                        </button>
-                      </>
-                    ) : (
-                      <Button
-                        onClick={onImageUpload}
-                        type='button'
-                        level='primary'
-                        className='w-full h-28'
-                        {...dragProps}
+          <ReactImageUploading
+            value={images}
+            onChange={onChange}
+            dataURLKey="data_url"
+          >
+            {({
+              imageList,
+              onImageUpload,
+              onImageRemoveAll,
+              isDragging,
+              dragProps,
+            }) => (
+              // write your building UI
+              <div className='outline outline-1 h-28 flex justify-center relative'>
+                {
+                  imageList.length ? (
+                    <>
+                      <img
+                        className='h-28 object-contain'
+                        src={imageList[0]['data_url'] || ''}
+                      />
+                      <button
+                        className={`absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl`}
+                        onClick={onImageRemoveAll}
                       >
-                        <MdUpload className='mx-auto' size={isDragging ? 40 : undefined} />
-                        {
-                          !isDragging ? <span>Upload Image</span> : undefined
-                        }
-                      </Button>
-                    )
-                  }
-                </div>
-              )}
-            </ReactImageUploading>
-          </Zoom>
+                        <MdDelete size={20} />
+                      </button>
+                    </>
+                  ) : (
+                    <Button
+                      onClick={onImageUpload}
+                      type='button'
+                      level='primary'
+                      className='w-full h-28'
+                      {...dragProps}
+                    >
+                      <MdUpload className='mx-auto' size={isDragging ? 40 : undefined} />
+                      {
+                        !isDragging ? <span>Upload Image</span> : undefined
+                      }
+                    </Button>
+                  )
+                }
+              </div>
+            )}
+          </ReactImageUploading>
         </div>
         <div id='score' className='col-span-full text-center'>
           <Button level='primary' onClick={() => handleCalculate()}>
