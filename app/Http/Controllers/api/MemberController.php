@@ -137,13 +137,14 @@ class MemberController extends Controller
     public function compare_similarity(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kyc_image' => 'required|mimes:png'
+            'kyc_image' => 'required|mimes:png',
+            'id' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response($validator->getMessageBag(), 400);
         }
-        
+
         $member = Member::find($request->id);
         [
             $a_colors_r,
