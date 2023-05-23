@@ -31,7 +31,7 @@ class MemberController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|alpha_num|unique:members,username',
-            'kyc_image' => 'required|mimes:jpeg'
+            'kyc_image' => 'required|mimes:png'
         ]);
 
         if ($validator->fails()) {
@@ -73,7 +73,7 @@ class MemberController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'kyc_image' => 'required|mimes:jpeg'
+                'kyc_image' => 'required|mimes:png'
             ]);
 
             if ($validator->fails()) {
@@ -93,7 +93,6 @@ class MemberController extends Controller
             }
 
             $image = $request->file('kyc_image');
-
 
             $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
             $image->move($this->directory_target, $filename);
@@ -137,6 +136,14 @@ class MemberController extends Controller
 
     public function compare_similarity(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'kyc_image' => 'required|mimes:png'
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->getMessageBag(), 400);
+        }
+        
         $member = Member::find($request->id);
         [
             $a_colors_r,
@@ -220,7 +227,7 @@ class MemberController extends Controller
 
     public function get_rgb(string $path)
     {
-        $image = imagecreatefromjpeg($path); // imagecreatefromjpeg/png/
+        $image = imagecreatefrompng($path); // imagecreatefrompng/png/
 
         $width = imagesx($image);
         $height = imagesy($image);

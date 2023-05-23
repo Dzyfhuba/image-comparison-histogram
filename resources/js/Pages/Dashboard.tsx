@@ -3,13 +3,14 @@ import MemberForm from '@/Containers/MemberForm'
 import Guest from '@/Layouts/Guest'
 import { SingleValue } from 'react-select'
 import MemberInterface from '@/Interfaces/MemberInterface'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import Swal from 'sweetalert2'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Zoom from 'react-medium-image-zoom'
 import ReactImageUploading, { ImageListType } from 'react-images-uploading'
 import Button from '@/Components/Button'
 import { MdDelete, MdImage, MdUpload } from 'react-icons/md'
+import { ScaleLoader } from 'react-spinners'
 
 type Option = {
   label: string
@@ -56,18 +57,23 @@ const Dashboard = () => {
     // console.log('asd')
     
     body.append('id', selectedMember?.value ? '' + selectedMember.value : '0')
-    body.append('kyc_image', images[0].file || '', '' + 'test')
+    if (images.length) {
+      body.append('kyc_image', images[0].file || '', '' + 'test')
+    }
 
     setLoading(true)
     const score = await axios.post('/api/members/compare_similarity', body)
       .then(res => {
         return res.data
       })
-      .catch(err => {
+      .catch((err: AxiosError) => {
         console.error(err)
+        Swal.fire({
+          title: `Error ${err.response?.status || 500}`,
+          icon: 'error'
+        })
         return NaN
       })
-
     setScore(score)
     setLoading(false)
   }
@@ -88,7 +94,7 @@ const Dashboard = () => {
             Image A
           </h2>
           <img
-            className='h-28 outline outline-1 object-contain w-full h-28'
+            className={`h-28 outline outline-1 object-contain w-full ${member ? 'bg-black' : 'bg-neutral-200'}`}
             src={
               member ?
                 `/api/members/image/${member?.kyc_image}` : 
@@ -104,6 +110,7 @@ const Dashboard = () => {
           <ReactImageUploading
             value={images}
             onChange={onChange}
+            acceptType={['png']}
             dataURLKey="data_url"
           >
             {({
@@ -114,7 +121,7 @@ const Dashboard = () => {
               dragProps,
             }) => (
               // write your building UI
-              <div className='outline outline-1 h-28 flex justify-center relative'>
+              <div className='outline outline-1 h-28 flex justify-center relative bg-black'>
                 {
                   imageList.length ? (
                     <>
@@ -134,7 +141,7 @@ const Dashboard = () => {
                       onClick={onImageUpload}
                       type='button'
                       level='primary'
-                      className='w-full h-28'
+                      className='w-full h-28 rounded-none'
                       {...dragProps}
                     >
                       <MdUpload className='mx-auto' size={isDragging ? 40 : undefined} />
@@ -149,17 +156,18 @@ const Dashboard = () => {
           </ReactImageUploading>
         </div>
         <div id='score' className='col-span-full text-center'>
-          <Button level='primary' onClick={() => handleCalculate()}>
-            Calculate
+          <Button
+            level='primary'
+            onClick={() => handleCalculate()}
+            disabled={isLoading}
+          >
+            {
+              isLoading ? 
+                <ScaleLoader height={8} color='white' /> : 'Calculate'
+            }
           </Button>
           <div>
-            {
-              isLoading ? (
-                <span>Loading</span>
-              ) : (
-                <span>Score: {score*100}%</span>
-              )
-            }
+            <span>Score: {score*100}%</span>
           </div>
         </div>
       </div>

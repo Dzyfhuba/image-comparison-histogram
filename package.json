@@ -35,6 +35,7 @@
         "react-lazy-load-image-component": "^1.5.6",
         "react-medium-image-zoom": "^5.1.6",
         "react-select": "^5.7.3",
+        "react-spinners": "^0.13.8",
         "sweetalert2": "^11.4.8",
         "sweetalert2-react-content": "^5.0.7"
     }

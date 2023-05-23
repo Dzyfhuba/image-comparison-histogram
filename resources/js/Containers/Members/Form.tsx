@@ -3,7 +3,7 @@ import Input from '@/Components/Input';
 import Label from '@/Components/Label'
 import Modal from '@/Components/Modal'
 import { useStoreActions, useStoreState } from '@/Redux/hook'
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import { MdImage, MdUpload, MdDelete } from 'react-icons/md';
 import { GrPowerReset } from 'react-icons/gr';
@@ -65,12 +65,12 @@ const Form = (props: Props) => {
           title: props.mode === 'create' ? 'Add New Member Successfully' : 'Update Member Successfully'
         })
       })
-      .catch(err => {
+      .catch((err: AxiosError) => {
         console.error(err)
         Swal.hideLoading()
         Swal.update({
           icon: 'error',
-          title: 'Error 500',
+          title: `Error ${err.response?.status || 500}`,
         })
       })
   }
@@ -124,7 +124,7 @@ const Form = (props: Props) => {
       <ReactImageUploading
         value={images}
         onChange={onChange}
-        acceptType={['jpeg']}
+        acceptType={['png']}
       >
         {({
           onImageUpload,

@@ -10,7 +10,9 @@ const Button = (props: Props) => {
       <button
         {...props}
         className={`bg-primary px-5 rounded-md border border-primary hover:bg-white-1 hover:text-primary
-        transition-colors duration-300 text-white${props.className ? ' ' + props.className : ''}`}>
+        transition-colors duration-300 text-white
+        disabled:bg-neutral-500 disabled:hover:bg-neutral-400 disabled:hover:text-white disabled:border-neutral-400
+        ${props.className ? ' ' + props.className : ''}`}>
         {props.children}
       </button>
     )
