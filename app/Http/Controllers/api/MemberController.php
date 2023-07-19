@@ -18,6 +18,23 @@ class MemberController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     /**
+     * Add a new pet to the store.
+     *
+     * @OA\Post(
+     *     path="/pet",
+     *     tags={"pet"},
+     *     operationId="addPet",
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input"
+     *     ),
+     *     security={
+     *         {"petstore_auth": {"write:pets", "read:pets"}}
+     *     },
+     * )
+     */
     public function index()
     {
         $members = Member::orderBy('updated_at', 'desc')->get();
