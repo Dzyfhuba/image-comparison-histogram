@@ -48,3 +48,5 @@ Route::put('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 
 Route::delete('/members/{id}', [\App\Http\Controllers\api\MemberController::class, 'destroy']);
 Route::get('/members/image/{image}', [\App\Http\Controllers\api\MemberController::class, 'kyc_image']);
 Route::post('/members/compare_similarity', [\App\Http\Controllers\api\MemberController::class, 'compare_similarity']);
+
+Route::post('/compare', [\App\Http\Controllers\api\CompareController::class, 'compare']);

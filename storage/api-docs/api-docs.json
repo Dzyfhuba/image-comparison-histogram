@@ -11,26 +11,43 @@
         }
     ],
     "paths": {
-        "/pet": {
+        "/compare": {
             "post": {
                 "tags": [
-                    "pet"
+                    "compare"
                 ],
-                "summary": "Add a new pet to the store.",
-                "operationId": "addPet",
-                "responses": {
-                    "405": {
-                        "description": "Invalid input"
+                "summary": "Compare two images, upload both.",
+                "operationId": "Compare.compare",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image1": {
+                                        "description": "First image",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "image2": {
+                                        "description": "Second image",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
                 },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "200": {
+                        "description": "Success"
                     }
-                ]
+                }
             }
         }
     }
