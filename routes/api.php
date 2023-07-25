@@ -50,3 +50,5 @@ Route::get('/members/image/{image}', [\App\Http\Controllers\api\MemberController
 Route::post('/members/compare_similarity', [\App\Http\Controllers\api\MemberController::class, 'compare_similarity']);
 
 Route::post('/compare', [\App\Http\Controllers\api\CompareController::class, 'compare']);
+
+Route::post('/lbph_face_recognition/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);

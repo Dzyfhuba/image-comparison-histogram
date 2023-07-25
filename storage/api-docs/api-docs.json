@@ -7,7 +7,15 @@
     "servers": [
         {
             "url": "http://localhost:8000/api",
-            "description": "API server"
+            "description": "local host"
+        },
+        {
+            "url": "http://localhost/image-comparison/api",
+            "description": "in port 80"
+        },
+        {
+            "url": "http://20.20.20.42/image-comparison/api",
+            "description": "TIF Akreditasi 2"
         }
     ],
     "paths": {
@@ -46,6 +54,70 @@
                     },
                     "200": {
                         "description": "Success"
+                    }
+                }
+            }
+        },
+        "/lbph_face_recognition/train": {
+            "post": {
+                "tags": [
+                    "Face Recognition"
+                ],
+                "summary": "Train LBPH Face Recognition",
+                "description": "Train the LBPH Face Recognition model with an image.",
+                "operationId": "trainLBPHFaceRecognition",
+                "requestBody": {
+                    "description": "Image data as form-data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Image file (PNG format, less than 2048KB)",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Image trained"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed response - Validator failed from Laravel",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validator failed from Laravel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Exception occurred"
                     }
                 }
             }

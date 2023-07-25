@@ -11,7 +11,15 @@ use Illuminate\Support\ServiceProvider;
  * )
  * @OA\Server(
  *     url="http://localhost:8000/api",
- *     description="API server"
+ *     description="local host"
+ * )
+ * @OA\Server(
+ *     url="http://localhost/image-comparison/api",
+ *     description="in port 80"
+ * )
+ * @OA\Server(
+ *     url="http://20.20.20.42/image-comparison/api",
+ *     description="TIF Akreditasi 2"
  * )
  */
 class AppServiceProvider extends ServiceProvider
