@@ -52,3 +52,8 @@ Route::post('/members/compare_similarity', [\App\Http\Controllers\api\MemberCont
 Route::post('/compare', [\App\Http\Controllers\api\CompareController::class, 'compare']);
 
 Route::post('/lbph_face_recognition/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);
+
+Route::get('/test-extension', function () {
+    $result = CV::Point(); // Replace with the actual function from your extension
+    return "Result from custom extension: $result";
+});

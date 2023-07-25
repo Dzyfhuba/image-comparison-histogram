@@ -1,0 +1,1 @@
+extension=opencv.so /etc/php/8.2/apache2/conf.d/opencv.ini

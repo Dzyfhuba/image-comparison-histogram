@@ -76,6 +76,10 @@
                                     "image": {
                                         "description": "Image file (PNG format, less than 2048KB)",
                                         "type": "file"
+                                    },
+                                    "name": {
+                                        "description": "username",
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
