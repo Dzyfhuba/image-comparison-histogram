@@ -83,7 +83,76 @@
                                     },
                                     "replace": {
                                         "description": "replace",
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "default": "false"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Image trained"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed response - Validator failed from Laravel",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validator failed from Laravel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Exception occurred"
+                    }
+                }
+            }
+        },
+        "/lbph_face_recognition/predict": {
+            "post": {
+                "tags": [
+                    "Face Recognition"
+                ],
+                "summary": "Predict LBPH Face Recognition",
+                "description": "Predict the LBPH Face Recognition model with an image.",
+                "operationId": "predictLBPHFaceRecognition",
+                "requestBody": {
+                    "description": "Image data as form-data",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Image file (PNG format, less than 2048KB)",
+                                        "type": "file"
+                                    },
+                                    "username": {
+                                        "description": "username",
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
