@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function() {
+Route::get('/', function () {
     $list1 = [
         'a' => 123,
         'b' => 321,
@@ -53,8 +53,4 @@ Route::post('/compare', [\App\Http\Controllers\api\CompareController::class, 'co
 
 Route::post('/lbph_face_recognition/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);
 Route::post('/lbph_face_recognition/predict', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predict']);
-
-Route::get('/test-extension', function () {
-    $result = CV::Point(); // Replace with the actual function from your extension
-    return "Result from custom extension: $result";
-});
+Route::get('/lbph_face_recognition/test', '\App\Http\Controllers\api\LBPHFaceRecognitionController@test');

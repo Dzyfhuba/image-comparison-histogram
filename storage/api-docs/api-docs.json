@@ -58,6 +58,28 @@
                 }
             }
         },
+        "/lbph_face_recognition/test": {
+            "get": {
+                "tags": [
+                    "Face Recognition"
+                ],
+                "summary": "Predict LBPH Face Recognition",
+                "description": "Predict the LBPH Face Recognition model with an image.",
+                "operationId": "testLBPHFaceRecognition",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/lbph_face_recognition/train": {
             "post": {
                 "tags": [

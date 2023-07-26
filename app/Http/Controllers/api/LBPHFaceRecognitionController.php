@@ -33,6 +33,48 @@ class LBPHFaceRecognitionController extends Controller
             mkdir($this->predictedImagePath);
     }
     /**
+     * @OA\Get(
+     *     path="/lbph_face_recognition/test",
+     *     operationId="testLBPHFaceRecognition",
+     *     tags={"Face Recognition"},
+     *     summary="Predict LBPH Face Recognition",
+     *     description="Predict the LBPH Face Recognition model with an image.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @OA\MediaType(
+     *             mediaType="text/plain",
+     *             @OA\Schema(
+     *                 type="string"
+     *             )
+     *         )
+     *     ),
+     * )
+     */
+    public function test()
+    {
+        echo "If you can read this, Local Binary Pattern Histogram System is work\n";
+        // Create a reflection class for the ExampleClass
+        $reflectionClass = new \ReflectionClass('CV\Face\LBPHFaceRecognizer');
+
+        // Get the list of public methods
+        $publicMethods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+        // Get the list of properties (attributes)
+        $properties = $reflectionClass->getProperties();
+
+        // Display the results
+        echo "Public methods:\n";
+        foreach ($publicMethods as $method) {
+            echo $method->getName() . "\n";
+        }
+
+        echo "\nProperties (attributes):\n";
+        foreach ($properties as $property) {
+            echo $property->getName() . "\n";
+        }
+    }
+    /**
      * @OA\Post(
      *     path="/lbph_face_recognition/train",
      *     operationId="trainLBPHFaceRecognition",
