@@ -77,9 +77,13 @@
                                         "description": "Image file (PNG format, less than 2048KB)",
                                         "type": "file"
                                     },
-                                    "name": {
+                                    "username": {
                                         "description": "username",
                                         "type": "text"
+                                    },
+                                    "replace": {
+                                        "description": "replace",
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
