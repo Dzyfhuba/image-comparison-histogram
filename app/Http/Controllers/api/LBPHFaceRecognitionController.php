@@ -282,8 +282,8 @@ class LBPHFaceRecognitionController extends Controller
                     ->first()->username;
                 $percentage = number_format(100 - $faceConfidence, 2);
                 $text = $percentage . " - " . $label;
-                $detected[] = $label;
-                echo "{$key} - {$faceLabel} - {$text}\n";
+                $detecteds[] = $label;
+                // echo "{$key} - {$faceLabel} - {$text}\n";
 
                 $scalar = new Scalar(0, 0, 255);
                 \CV\rectangleByRect($src, $face, $scalar, 2);
@@ -296,12 +296,12 @@ class LBPHFaceRecognitionController extends Controller
             // cv\imwrite("results/_recognize_face_by_lbph.jpg", $src);
             imwrite(storage_path('app/results/_recognize_face_by_lbph.jpg'), $src);
 
-            $detected = in_array($body['username'], $detected) ?
+            $message = in_array($body['username'], $detecteds) ?
                 'your image classified' :
                 'reupload your image';
 
             return response()->json([
-
+                'message' => $message
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
