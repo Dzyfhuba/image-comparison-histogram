@@ -18,6 +18,10 @@ use Illuminate\Support\ServiceProvider;
  *     description="in port 80"
  * )
  * @OA\Server(
+ *     url="http://localhost/api",
+ *     description="in port 80"
+ * )
+ * @OA\Server(
  *     url="http://20.20.20.42/image-comparison/api",
  *     description="TIF Akreditasi 2"
  * )

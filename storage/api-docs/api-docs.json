@@ -14,6 +14,10 @@
             "description": "in port 80"
         },
         {
+            "url": "http://localhost/api",
+            "description": "in port 80"
+        },
+        {
             "url": "http://20.20.20.42/image-comparison/api",
             "description": "TIF Akreditasi 2"
         }
