@@ -19,9 +19,15 @@ class LBPHFaceRecognitionController extends Controller
     function __construct()
     {
         $this->faceClassifier = new CascadeClassifier();
+        $model = storage_path('app/lbpcascade_frontalface.xml');
+        if (!file_exists($model))
+            throw new \Exception("model not found");
         $this->faceClassifier->load(storage_path('app/lbpcascade_frontalface.xml'));
         $this->faceRecognizer = LBPHFaceRecognizer::create();
 
+        // create folder if not exist
+        if (!file_exists(storage_path('app/results')))
+            mkdir(storage_path('app/results'));
         $this->newModelPath = storage_path('app/results/lbph_model.xml');
 
         $this->trainedImagePath = storage_path('app/trained_images');
@@ -91,6 +97,7 @@ class LBPHFaceRecognitionController extends Controller
      *                     property="image",
      *                     description="Image file (PNG format, less than 2048KB)",
      *                     type="file",
+     *                ),   mime_types:png
      *                 ),
      *                 @OA\Property(
      *                     property="username",
@@ -137,8 +144,9 @@ class LBPHFaceRecognitionController extends Controller
     public function train(Request $request)
     {
         try {
+            // var_dump($request->file('image')->getClientMimeType());
             $payload = Validator::make($request->all(), [
-                'image' => 'required|mimes:png|max:2048',
+                'image' => 'required|mimes:png,jpg|max:2048',
                 'username' => 'required',
                 'replace' => 'in:false,true'
             ]);
@@ -182,7 +190,8 @@ class LBPHFaceRecognitionController extends Controller
                 $kyc = KYC::query()->where('username', $body['username'])->first();
             }
 
-            $this->faceRecognizer->read($this->newModelPath);
+            if (file_exists($this->newModelPath))
+                $this->faceRecognizer->read($this->newModelPath);
 
             $images = [$fullPath];
             $labels = [$body['username']];
@@ -283,7 +292,7 @@ class LBPHFaceRecognitionController extends Controller
     {
         try {
             $payload = Validator::make($request->all(), [
-                'image' => 'required|mimes:png|max:2048',
+                'image' => 'required|mimes:png,jpg|max:2048',
                 'username' => 'required',
             ]);
 
@@ -307,8 +316,13 @@ class LBPHFaceRecognitionController extends Controller
             $faces = [];
             $this->faceClassifier->detectMultiScale($gray, $faces);
             $detecteds = [];
+            $percentages = [];
+            $labels = KYC::all();
+            $texts = [];
 
             equalizeHist($gray, $gray);
+
+            // by detected face
             foreach ($faces as $key => $face) {
                 $faceImage = $gray->getImageROI($face);
 
@@ -322,10 +336,14 @@ class LBPHFaceRecognitionController extends Controller
                     ])
                     ->where('id', $faceLabel)
                     ->first()->username;
+                // $label = $faceLabel;
                 $percentage = number_format(100 - $faceConfidence, 2);
+                $percentages[] = $percentage;
                 $text = $percentage . " - " . $label;
+                $texts[] = $text;
                 $detecteds[] = $label;
                 // echo "{$key} - {$faceLabel} - {$text}\n";
+                // $texts[] = "{$key} - {$faceLabel} - {$text}\n";
 
                 $scalar = new Scalar(0, 0, 255);
                 \CV\rectangleByRect($src, $face, $scalar, 2);
@@ -343,7 +361,9 @@ class LBPHFaceRecognitionController extends Controller
                 'reupload your image';
 
             return response()->json([
-                'message' => $message
+                'message' => $message,
+                'texts' => $texts,
+                'accuration' => $percentages
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

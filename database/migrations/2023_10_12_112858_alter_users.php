@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('train_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('kyc_id')->constrained('kyc');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('photo');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('train_logs');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('photo');
+        });
     }
 };

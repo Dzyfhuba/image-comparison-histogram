@@ -13,8 +13,10 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::inertia('/', 'Dashboard');
-Route::inertia('/users', 'Members');
+Route::inertia('/v1', 'Dashboard');
+Route::inertia('/v1/users', 'Members');
+
+Route::get('/', [App\Http\Controllers\v2\DashboardController::class, 'index']);
 
 
 // require __DIR__.'/auth.php';
