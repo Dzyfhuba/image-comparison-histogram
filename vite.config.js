@@ -9,7 +9,7 @@ export default defineConfig({
     laravel({
       input: 'resources/js/app.tsx',
       refresh: true,
-      ssr: 'resources/js/ssr.tsx',
+      ssr: 'resources/js/ssr.jsx',
     }),
     react(),
   ],
@@ -24,6 +24,6 @@ export default defineConfig({
     _global: ({})
   },
   ssr: {
-    noExternal: ['usehooks-ts']
-  }
+    noExternal: ['usehooks-ts', 'react-icons']
+  },
 });

@@ -13,3 +13,9 @@ label {
 button * {
     pointer-events: none;
 }
+
+@layer utilities {
+    .force-dark {
+        @apply bg-md-dark-primary-container text-md-dark-primary
+    }
+}

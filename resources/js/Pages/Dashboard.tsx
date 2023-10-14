@@ -60,7 +60,7 @@ const Dashboard = () => {
       body.append('id', selectedMember?.value ? '' + selectedMember.value : '0')
     }
     if (images.length) {
-      body.append('kyc_image', images[0].file || '', '' + 'test')
+      body.append('kyc_image', images[0].file!, '' + 'test')
     }
 
     setLoading(true)

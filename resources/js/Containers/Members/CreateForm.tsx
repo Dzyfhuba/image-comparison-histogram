@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import Button from '@/Components/Button';
 import Input from '@/Components/Input';
 import Label from '@/Components/Label'

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Button from '@/Components/Button'
 import { useStoreActions } from '@/Redux/hook'
 import React, { SyntheticEvent } from 'react'

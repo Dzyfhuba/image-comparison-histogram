@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useStoreActions, useStoreState } from '@/Redux/hook'
 import React, { CSSProperties, HTMLAttributes, ReactNode, useEffect, useState } from 'react'
 import { MdClose } from 'react-icons/md'

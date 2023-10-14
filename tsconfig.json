@@ -2,7 +2,7 @@
   "compilerOptions": {
       "allowJs": true,
       "module": "ESNext",
-      "moduleResolution": "bundler",
+      "moduleResolution": "node",
       "jsx": "react-jsx",
       "strict": true,
       "isolatedModules": true,
@@ -15,6 +15,6 @@
       },
       "skipLibCheck": true,
   },
-  "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"],
+  "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts", "resources/js/ssr.jsx"],
   "exclude": ["node_modules"]
 }

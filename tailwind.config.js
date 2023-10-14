@@ -3,6 +3,8 @@ import forms from '@tailwindcss/forms';
 import konstaConfig from 'konsta/config'
 
 /** @type {import('tailwindcss').Config} */
+// convert code above to type ir interface
+
 
 export default konstaConfig({
   content: [
@@ -20,8 +22,8 @@ export default konstaConfig({
       colors: {
         primary: '#1e69ff',
         'white-1': '#f5f5f5',
-        'neutral-1': '#757575'
-      }
+        'neutral-1': '#757575',
+      },
     },
   },
 
