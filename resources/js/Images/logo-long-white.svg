@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1440"
+   height="297.88901"
+   viewBox="0 0 1440 297.88901"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="logo-long-white.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:export-filename="/home/ubaid/Documents/logo-long-bg-white.png"
+   inkscape:export-xdpi="464.06546"
+   inkscape:export-ydpi="464.06546"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview707"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="false"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.29016746"
+     inkscape:cx="620.33145"
+     inkscape:cy="70.648859"
+     inkscape:window-width="1366"
+     inkscape:window-height="743"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-center="false"
+     width="499px" />
+  <defs
+     id="defs702">
+    <rect
+       x="4.8664193"
+       y="3.904722"
+       width="232.56816"
+       height="61.181263"
+       id="rect8079" />
+    <rect
+       x="7.3484931"
+       y="7.1830611"
+       width="486.11386"
+       height="52.280361"
+       id="rect6567" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3288"
+       transform="matrix(5.6849051,0,0,5.6849051,4.5110513e-6,9.6671921e-6)"
+       style="fill:#ffffff"
+       inkscape:export-filename="/home/ubaid/Documents/logo-long-white.png"
+       inkscape:export-xdpi="464.06546"
+       inkscape:export-ydpi="464.06546">
+      <text
+         xml:space="preserve"
+         id="text8077"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect8079);fill:#ffffff;fill-opacity:1;stroke:none"
+         transform="matrix(1.5735365,0,0,1.5735365,-13.098463,-19.666135)"><tspan
+           x="4.8671875"
+           y="39.294922"
+           id="tspan30"><tspan
+             style="font-family:'Courier Prime';-inkscape-font-specification:'Courier Prime'"
+             id="tspan28">{     }</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         id="text6565"
+         style="font-style:normal;font-weight:normal;font-size:37.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect6567);fill:#ffffff;fill-opacity:1;stroke:none"
+         transform="matrix(1.3255455,0,0,1.3255455,20.762206,-15.369764)"><tspan
+           x="7.3476562"
+           y="40.214816"
+           id="tspan34"><tspan
+             style="font-family:Chewy;-inkscape-font-specification:Chewy"
+             id="tspan32">Dzyfhuba</tspan></tspan></text>
+    </g>
+  </g>
+</svg>

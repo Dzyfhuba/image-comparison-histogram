@@ -2,13 +2,14 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "dev": "vite --host 192.168.51.28",
+        "build": "tsc && vite build && vite build --ssr"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
-        "@inertiajs/react": "^1.0.0",
+        "@inertiajs/react": "^1.0.12",
         "@tailwindcss/forms": "^0.5.3",
+        "@types/node": "^20.8.6",
         "@types/react": "^18.2.6",
         "@types/react-dom": "^18.2.4",
         "@types/react-lazy-load-image-component": "^1.5.3",
@@ -30,14 +31,16 @@
     },
     "dependencies": {
         "easy-peasy": "^6.0.0",
+        "konsta": "^3.1.0",
         "nanoid": "^3.3.6",
-        "react-icons": "^4.8.0",
+        "react-icons": "^4.11.0",
         "react-images-uploading": "^3.1.7",
         "react-lazy-load-image-component": "^1.5.6",
         "react-medium-image-zoom": "^5.1.6",
         "react-select": "^5.7.3",
         "react-spinners": "^0.13.8",
         "sweetalert2": "^11.4.8",
-        "sweetalert2-react-content": "^5.0.7"
+        "sweetalert2-react-content": "^5.0.7",
+        "ziggy-js": "^1.8.1"
     }
 }

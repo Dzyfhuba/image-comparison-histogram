@@ -9,6 +9,8 @@ import React from 'react';
 import { StoreProvider } from 'easy-peasy';
 import store from './Redux/store';
 
+import { App as KonstaApp } from 'konsta/react'
+
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 createInertiaApp({
@@ -18,9 +20,11 @@ createInertiaApp({
     const root = createRoot(el);
 
     root.render(
-      <StoreProvider store={store}>
-        <App {...props} />
-      </StoreProvider>
+      <KonstaApp>
+        <StoreProvider store={store}>
+          <App {...props} />
+        </StoreProvider>
+      </KonstaApp>
     );
   },
   progress: {

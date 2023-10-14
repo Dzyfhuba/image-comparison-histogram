@@ -9,10 +9,21 @@ export default defineConfig({
     laravel({
       input: 'resources/js/app.tsx',
       refresh: true,
+      ssr: 'resources/js/ssr.tsx',
     }),
     react(),
   ],
   resolve: {
     alias: [{ find: '@', replacement: path.resolve(__dirname, 'resources/js') }],
   },
+  server: {
+    host: true
+  },
+  define: {
+    // global: {},
+    _global: ({})
+  },
+  ssr: {
+    noExternal: ['usehooks-ts']
+  }
 });
