@@ -11,4 +11,9 @@ class DashboardController extends Controller
     {
         return inertia('v2/Dashboard');
     }
+
+    public function newFace()
+    {
+        return inertia('v2/NewFace');
+    }
 }

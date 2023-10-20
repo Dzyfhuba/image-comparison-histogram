@@ -6,6 +6,7 @@
         "build": "tsc && vite build && vite build --ssr"
     },
     "devDependencies": {
+        "@capacitor/cli": "^5.5.0",
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.12",
         "@tailwindcss/forms": "^0.5.3",
@@ -30,6 +31,7 @@
         "vite": "^4.4.11"
     },
     "dependencies": {
+        "@capacitor/core": "^5.5.0",
         "easy-peasy": "^6.0.4",
         "konsta": "^3.1.0",
         "nanoid": "^3.3.6",

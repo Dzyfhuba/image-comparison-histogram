@@ -17,6 +17,7 @@ Route::inertia('/v1', 'Dashboard');
 Route::inertia('/v1/users', 'Members');
 
 Route::get('/', [App\Http\Controllers\v2\DashboardController::class, 'index']);
+Route::get('/new-face', [App\Http\Controllers\v2\DashboardController::class, 'newFace']);
 
 
 // require __DIR__.'/auth.php';

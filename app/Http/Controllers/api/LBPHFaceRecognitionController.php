@@ -144,7 +144,6 @@ class LBPHFaceRecognitionController extends Controller
     public function train(Request $request)
     {
         try {
-            // var_dump($request->file('image')->getClientMimeType());
             $payload = Validator::make($request->all(), [
                 'image' => 'required|mimes:png,jpg|max:2048',
                 'username' => 'required',
@@ -200,13 +199,22 @@ class LBPHFaceRecognitionController extends Controller
             // foreach ($images as $key => $image) {
             // if (!$key) continue;
             // echo "\nexist:" . file_exists($image);
-            // var_dump($fullPath);
-            // var_dump(file_exists($fullPath));
             $src = imread($fullPath);
             $gray = cvtColor($src, COLOR_BGR2GRAY);
             $faces = [];
             $this->faceClassifier->detectMultiScale($gray, $faces);
+            // dump($faces, $gray);
+            // detected face is not one
+            if (count($faces) !== 1) {
+                return response()->json([
+                    'error' => [
+                        'image' => 'image must contain one face'
+                    ]
+                ], 400);
+            }
+
             //var_export($faces);
+            // dump($gray);
             equalizeHist($gray, $gray);
             foreach ($faces as $k => $face) {
                 $faceImages[] = $gray->getImageROI($face); // face coordinates to image
@@ -217,6 +225,14 @@ class LBPHFaceRecognitionController extends Controller
             // $this->faceRecognizer->train($faceImages, $faceLabels);
             // }
             $this->faceRecognizer->update($faceImages, $faceLabels);
+
+            // write $faceImages and $faceLabels to txt file in storage_path('app/results') use php native
+            $file = fopen(storage_path('app/results/faceImages.txt'), 'w');
+            fwrite($file,json_encode($faceImages));
+            fclose($file);
+            $file = fopen(storage_path('app/results/faceLabels.txt'), 'a');
+            fwrite($file, json_encode($faceLabels));
+            fclose($file);
 
             $this->faceRecognizer->write($this->newModelPath);
             TrainLog::create([
@@ -363,7 +379,7 @@ class LBPHFaceRecognitionController extends Controller
             return response()->json([
                 'message' => $message,
                 'texts' => $texts,
-                'accuration' => $percentages
+                'score' => $percentages
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
