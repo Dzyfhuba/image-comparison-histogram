@@ -1,6 +1,5 @@
+import konstaConfig from 'konsta/config';
 import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
-import konstaConfig from 'konsta/config'
 
 /** @type {import('tailwindcss').Config} */
 // convert code above to type ir interface
@@ -13,6 +12,12 @@ export default konstaConfig({
     './resources/views/**/*.blade.php',
     './resources/js/**/*.tsx',
   ],
+
+  konsta: {
+    colors: {
+      red: '#ff0000',
+    }
+  },
 
   theme: {
     extend: {
@@ -27,5 +32,5 @@ export default konstaConfig({
     },
   },
 
-  plugins: [forms],
+  // plugins: [forms],
 })

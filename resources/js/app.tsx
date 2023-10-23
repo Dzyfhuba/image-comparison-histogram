@@ -9,7 +9,12 @@ import React from 'react';
 import { StoreProvider } from 'easy-peasy';
 import store from './Redux/store';
 
-import { App as KonstaApp } from 'konsta/react'
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
+if (window) {
+  defineCustomElements(window)
+}
+
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 

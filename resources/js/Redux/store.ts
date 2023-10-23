@@ -1,3 +1,4 @@
+import { Photo } from '@capacitor/camera';
 import axios from 'axios';
 import {
   createStore,
@@ -21,9 +22,15 @@ export interface Model {
     members: MemberInterface[]
     setMembers: Action<Model, MemberInterface[]>
     fetchMembers: Thunk<Model>
+    image?: Photo
+    setImage: Action<Model, Photo>
 }
 
 const store = createStore<Model>({
+  image: undefined,
+  setImage: action((state, payload) => {
+    state.image = payload;
+  }),
   members: [],
   setMembers: action((state, payload) => {
     state.members = payload;
