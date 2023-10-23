@@ -65,7 +65,7 @@
         "/lbph_face_recognition/test": {
             "get": {
                 "tags": [
-                    "Face Recognition"
+                    "face recognition"
                 ],
                 "summary": "Predict LBPH Face Recognition",
                 "description": "Predict the LBPH Face Recognition model with an image.",
@@ -87,7 +87,7 @@
         "/lbph_face_recognition/train": {
             "post": {
                 "tags": [
-                    "Face Recognition"
+                    "face recognition"
                 ],
                 "summary": "Train LBPH Face Recognition",
                 "description": "Train the LBPH Face Recognition model with an image.",
@@ -100,7 +100,7 @@
                             "schema": {
                                 "properties": {
                                     "image": {
-                                        "description": "Image file (PNG format, less than 2048KB)",
+                                        "description": "Image file (PNG or JPG format, less than 2048KB)",
                                         "type": "file"
                                     },
                                     "username": {
@@ -160,7 +160,7 @@
         "/lbph_face_recognition/predict": {
             "post": {
                 "tags": [
-                    "Face Recognition"
+                    "face recognition"
                 ],
                 "summary": "Predict LBPH Face Recognition",
                 "description": "Predict the LBPH Face Recognition model with an image.",
@@ -173,7 +173,7 @@
                             "schema": {
                                 "properties": {
                                     "image": {
-                                        "description": "Image file (PNG format, less than 2048KB)",
+                                        "description": "Image file (PNG or JPG format, less than 2048KB)",
                                         "type": "file"
                                     },
                                     "username": {

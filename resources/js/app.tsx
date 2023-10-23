@@ -20,11 +20,9 @@ createInertiaApp({
     const root = createRoot(el);
 
     root.render(
-      <KonstaApp theme='ios'>
-        <StoreProvider store={store}>
-          <App {...props} />
-        </StoreProvider>
-      </KonstaApp>
+      <StoreProvider store={store}>
+        <App {...props} />
+      </StoreProvider>
     );
   },
   progress: {

@@ -1,3 +1,4 @@
+import React from 'react'
 import Guest from "@/Layouts/v2/Guest"
 
 const NewFace = () => {

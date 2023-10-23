@@ -42,7 +42,7 @@ class LBPHFaceRecognitionController extends Controller
      * @OA\Get(
      *     path="/lbph_face_recognition/test",
      *     operationId="testLBPHFaceRecognition",
-     *     tags={"Face Recognition"},
+     *     tags={"face recognition"},
      *     summary="Predict LBPH Face Recognition",
      *     description="Predict the LBPH Face Recognition model with an image.",
      *     @OA\Response(
@@ -84,7 +84,7 @@ class LBPHFaceRecognitionController extends Controller
      * @OA\Post(
      *     path="/lbph_face_recognition/train",
      *     operationId="trainLBPHFaceRecognition",
-     *     tags={"Face Recognition"},
+     *     tags={"face recognition"},
      *     summary="Train LBPH Face Recognition",
      *     description="Train the LBPH Face Recognition model with an image.",
      *     @OA\RequestBody(
@@ -95,9 +95,8 @@ class LBPHFaceRecognitionController extends Controller
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="image",
-     *                     description="Image file (PNG format, less than 2048KB)",
+     *                     description="Image file (PNG or JPG format, less than 2048KB)",
      *                     type="file",
-     *                ),   mime_types:png
      *                 ),
      *                 @OA\Property(
      *                     property="username",
@@ -254,7 +253,7 @@ class LBPHFaceRecognitionController extends Controller
      * @OA\Post(
      *     path="/lbph_face_recognition/predict",
      *     operationId="predictLBPHFaceRecognition",
-     *     tags={"Face Recognition"},
+     *     tags={"face recognition"},
      *     summary="Predict LBPH Face Recognition",
      *     description="Predict the LBPH Face Recognition model with an image.",
      *     @OA\RequestBody(
@@ -265,7 +264,7 @@ class LBPHFaceRecognitionController extends Controller
      *             @OA\Schema(
      *                 @OA\Property(
      *                     property="image",
-     *                     description="Image file (PNG format, less than 2048KB)",
+     *                     description="Image file (PNG or JPG format, less than 2048KB)",
      *                     type="file",
      *                 ),
      *                 @OA\Property(
@@ -331,6 +330,16 @@ class LBPHFaceRecognitionController extends Controller
             $gray = cvtColor($src, COLOR_BGR2GRAY);
             $faces = [];
             $this->faceClassifier->detectMultiScale($gray, $faces);
+
+            // detected face is not one
+            if (count($faces) !== 1) {
+                return response()->json([
+                    'error' => [
+                        'image' => 'image must contain one face'
+                    ]
+                ], 400);
+            }
+
             $detecteds = [];
             $percentages = [];
             $labels = KYC::all();
@@ -370,17 +379,20 @@ class LBPHFaceRecognitionController extends Controller
             }
 
             // cv\imwrite("results/_recognize_face_by_lbph.jpg", $src);
-            imwrite(storage_path('app/results/_recognize_face_by_lbph.jpg'), $src);
+            $filename = $body['username'] . "_" . Str::uuid() . ".jpg";
+            imwrite(storage_path("app/scores/$filename"), $src);
 
-            $message = in_array($body['username'], $detecteds) ?
+            $isCorrect = in_array($body['username'], $detecteds);
+            $message = $isCorrect ?
                 'your image classified' :
-                'reupload your image';
+                'your image not classified, please try again with better image';
 
             return response()->json([
                 'message' => $message,
                 'texts' => $texts,
-                'score' => $percentages
-            ], 200);
+                'score' => $percentages,
+                'detecteds' => $detecteds,
+            ], $isCorrect ? 200 : 400);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e
