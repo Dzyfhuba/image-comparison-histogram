@@ -1,6 +1,6 @@
 import Navbar from '@/Containers/v2/Navbar'
 import { Page } from 'konsta/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { App as KonstaApp } from 'konsta/react'
 import { PageProps } from '@/types/page'
 
@@ -9,8 +9,12 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 const Guest = (props: Props) => {
+
   return (
-    <KonstaApp theme={props.agent?.os == 'iOS' ? 'ios' : 'material'}>
+    <KonstaApp
+      theme={props.agent?.os == 'iOS' ? 'ios' : 'material'}
+    // theme='ios'
+    >
       <header>
         <Navbar />
 

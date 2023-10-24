@@ -15,7 +15,8 @@ export default konstaConfig({
 
   konsta: {
     colors: {
-      red: '#ff0000',
+      kred: '#ff0000',
+      kyellow: '#ffff00',
     }
   },
 

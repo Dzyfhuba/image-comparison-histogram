@@ -40,7 +40,7 @@ class LBPHFaceRecognitionController extends Controller
     }
     /**
      * @OA\Get(
-     *     path="/lbph_face_recognition/test",
+     *     path="/lbph/test",
      *     operationId="testLBPHFaceRecognition",
      *     tags={"face recognition"},
      *     summary="Predict LBPH Face Recognition",
@@ -82,7 +82,7 @@ class LBPHFaceRecognitionController extends Controller
     }
     /**
      * @OA\Post(
-     *     path="/lbph_face_recognition/train",
+     *     path="/lbph/train",
      *     operationId="trainLBPHFaceRecognition",
      *     tags={"face recognition"},
      *     summary="Train LBPH Face Recognition",
@@ -251,7 +251,7 @@ class LBPHFaceRecognitionController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/lbph_face_recognition/predict",
+     *     path="/lbph/predict",
      *     operationId="predictLBPHFaceRecognition",
      *     tags={"face recognition"},
      *     summary="Predict LBPH Face Recognition",

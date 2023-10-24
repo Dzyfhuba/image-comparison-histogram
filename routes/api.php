@@ -51,6 +51,6 @@ Route::post('/members/compare_similarity', [\App\Http\Controllers\api\MemberCont
 
 Route::post('/compare', [\App\Http\Controllers\api\CompareController::class, 'compare']);
 
-Route::post('/lbph_face_recognition/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);
-Route::post('/lbph_face_recognition/predict', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predict']);
-Route::get('/lbph_face_recognition/test', '\App\Http\Controllers\api\LBPHFaceRecognitionController@test');
+Route::post('/lbph/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);
+Route::post('/lbph/predict', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predict']);
+Route::get('/lbph/test', '\App\Http\Controllers\api\LBPHFaceRecognitionController@test');

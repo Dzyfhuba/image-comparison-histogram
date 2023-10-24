@@ -62,7 +62,7 @@
                 }
             }
         },
-        "/lbph_face_recognition/test": {
+        "/lbph/test": {
             "get": {
                 "tags": [
                     "face recognition"
@@ -84,7 +84,7 @@
                 }
             }
         },
-        "/lbph_face_recognition/train": {
+        "/lbph/train": {
             "post": {
                 "tags": [
                     "face recognition"
@@ -157,7 +157,7 @@
                 }
             }
         },
-        "/lbph_face_recognition/predict": {
+        "/lbph/predict": {
             "post": {
                 "tags": [
                     "face recognition"
