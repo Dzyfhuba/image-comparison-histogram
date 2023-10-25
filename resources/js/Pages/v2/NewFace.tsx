@@ -126,55 +126,57 @@ const NewFace = () => {
         <img
           src={imageData?.webPath || NoImage}
           alt="captured image"
-          className='h-full object-cover'
+          className='h-3/5 max-w-xl object-cover mx-auto border-black border rounded-md'
           onError={e => e.currentTarget.setAttribute('src', NoImage)}
         />
-        <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null) }}>
-          <List>
-            <ListInput
-              floatingLabel
-              label='Username'
-              type='text'
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              tabIndex={0}
-              autoFocus
-            />
-            {
-              qsMode === 'train' && <ListItem
-                title='Update'
-                after={
-                  <Toggle
-                    checked={isReplace}
-                    onChange={() => setReplace(!isReplace)}
-                  />
-                }
+        <div className='mt-auto'>
+          <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null) }}>
+            <List>
+              <ListInput
+                floatingLabel
+                label='Username'
+                type='text'
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                tabIndex={0}
+                autoFocus
               />
-            }
-          </List>
-        </form>
-        <div className='flex gap-1'>
-          <Button clear className='w-min k-color-kred' tabIndex={1} onClick={() => router.visit('/')}>
-            <Icon material={<MdClose size={44} />} ios={<MdClose size={44} />} className='aspect-square' />
-          </Button>
-          <Button clear className='w-min k-color-yellow' onClick={async () => {
-            const image = await takePicture()
-            setImageData(image)
-            router.remember(image, 'image')
-            window.localStorage.setItem('image', JSON.stringify(image))
-          }}>
-            <Icon material={<MdRefresh size={44} />} ios={<MdRefresh size={44} />} className='aspect-square' />
-          </Button>
-          <Button
-            onClick={() => {
-              // setShowDialog(true)
-              setConfirmOpened(true)
-              setResTitle('Confirm')
-              setResMessage(null)
-            }}
-          >
-            {qsMode === 'train' ? 'Save' : 'Predict'}
-          </Button>
+              {
+                qsMode === 'train' && <ListItem
+                  title='Update'
+                  after={
+                    <Toggle
+                      checked={isReplace}
+                      onChange={() => setReplace(!isReplace)}
+                    />
+                  }
+                />
+              }
+            </List>
+          </form>
+          <div className='flex gap-1'>
+            <Button clear className='w-min k-color-kred' tabIndex={1} onClick={() => router.visit('/')}>
+              <Icon material={<MdClose size={44} />} ios={<MdClose size={44} />} className='aspect-square' />
+            </Button>
+            <Button clear className='w-min k-color-yellow' onClick={async () => {
+              const image = await takePicture()
+              setImageData(image)
+              router.remember(image, 'image')
+              window.localStorage.setItem('image', JSON.stringify(image))
+            }}>
+              <Icon material={<MdRefresh size={44} />} ios={<MdRefresh size={44} />} className='aspect-square' />
+            </Button>
+            <Button
+              onClick={() => {
+                // setShowDialog(true)
+                setConfirmOpened(true)
+                setResTitle('Confirm')
+                setResMessage(null)
+              }}
+            >
+              {qsMode === 'train' ? 'Save' : 'Predict'}
+            </Button>
+          </div>
         </div>
       </div>
 
