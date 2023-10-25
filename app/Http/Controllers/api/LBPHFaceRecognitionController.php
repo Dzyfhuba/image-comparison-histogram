@@ -9,6 +9,7 @@ use Validator;
 use Str;
 use App\Models\KYC;
 use App\Models\TrainLog;
+use App\Models\PredictLog;
 
 use CV\Face\LBPHFaceRecognizer, CV\CascadeClassifier, CV\Scalar, CV\Point;
 use function CV\{imread, imwrite, cvtColor, equalizeHist};
@@ -385,6 +386,9 @@ class LBPHFaceRecognitionController extends Controller
 
             // cv\imwrite("results/_recognize_face_by_lbph.jpg", $src);
             $filename = $body['username'] . "_" . Str::uuid() . ".jpg";
+
+            if (!file_exists(storage_path("app/scores")))
+                mkdir(storage_path("app/scores"));
             imwrite(storage_path("app/scores/$filename"), $src);
 
             $isCorrect = in_array($body['username'], $detecteds);
@@ -392,11 +396,19 @@ class LBPHFaceRecognitionController extends Controller
                 'your image classified' :
                 'your image not classified, please try again with better image';
 
+            $user = KYC::query()->where('username', $body['username'])->first();
+            // store to predict log
+            PredictLog::create([
+                'user_id' => $user->id,
+                'result_path' => $filename
+            ]);
+
             return response()->json([
                 'message' => $message,
                 'texts' => $texts,
                 'score' => $percentages,
                 'detecteds' => $detecteds,
+                'result_path' => $request->schemeAndHttpHost() . "/lbph/score/$filename"
             ], $isCorrect ? 200 : 400);
         } catch (\Exception $e) {
             return response()->json([

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import konstaConfig from 'konsta/config';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -33,5 +34,5 @@ export default konstaConfig({
     },
   },
 
-  // plugins: [forms],
+  plugins: [require("daisyui")],
 })

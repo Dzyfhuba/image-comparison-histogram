@@ -1,12 +1,13 @@
 import { AxiosGuest } from '@/Actions/Axios'
 import { useCamera } from '@/Actions/Camera'
+import { isValidUrl } from '@/Actions/Str'
 import NoImage from '@/Images/No-Image-Found.png'
 import Guest from "@/Layouts/v2/Guest"
 import { useStoreState } from '@/Redux/hook'
 import { Photo } from '@capacitor/camera'
 import { router, useRemember } from '@inertiajs/react'
 import axios from 'axios'
-import { Button, Dialog, DialogButton, Icon, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
+import { Button, Dialog, DialogButton, Icon, Link, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { MdClose, MdRefresh } from 'react-icons/md'
 
@@ -74,18 +75,25 @@ const NewFace = () => {
         return
       } else {
         if (qsMode == 'predict') {
+          window.localStorage.setItem('prediction', data.result_path)
           setResTitle('Success')
           setResMessage(
             <table>
-              {
-                Object.keys(data).map((key, idx) =>
-                  <tr key={idx}>
-                    <td>{key}</td>
-                    <td>:</td>
-                    <td>{data[key]}</td>
-                  </tr>
-                )
-              }
+              <tbody>
+                {
+                  Object.keys(data).map((key, idx) =>
+                    <tr key={idx}>
+                      <td>{key}</td>
+                      <td>:</td>
+                      <td>{
+                        // data[key] is url
+                        isValidUrl(data[key]) ?
+                          <a className='link' href={data[key]} target='_blank' rel="noreferrer">{(data[key] as string).split('/').pop()}</a> : data[key]
+                      }</td>
+                    </tr>
+                  )
+                }
+              </tbody>
             </table>
           )
         }
@@ -115,10 +123,10 @@ const NewFace = () => {
   return (
     <Guest>
       <div className='h-screen flex flex-col p-3'>
-        <img 
+        <img
           src={imageData?.webPath || NoImage}
           alt="captured image"
-          className='h-full object-cover' 
+          className='h-full object-cover'
           onError={e => e.currentTarget.setAttribute('src', NoImage)}
         />
         <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null) }}>
@@ -178,10 +186,21 @@ const NewFace = () => {
         buttons={
           <>
             <DialogButton onClick={() => setConfirmOpened(false)} disabled={isLoading}>
-              Cancel
+              {
+                resTitle === 'Success' ? 'Close' : 'Cancel'
+              }
             </DialogButton>
-            <DialogButton strong onClick={handleSubmit} disabled={isLoading || resTitle === 'Error'}>
-              Confirm
+            <DialogButton
+              strong
+              onClick={resTitle === 'Success' ? () => {
+                setConfirmOpened(false)
+                router.replace('/')
+              } : handleSubmit}
+              disabled={isLoading || resTitle === 'Error'}
+            >
+              {
+                resTitle === 'Success' ? 'Back' : 'Confirm'
+              }
             </DialogButton>
           </>
         }
