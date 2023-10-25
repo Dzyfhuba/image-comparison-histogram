@@ -21,8 +21,19 @@ const FabMenu = () => {
     const image = await takePicture()
     console.log(image)
     setImage(image)
+
+    // router.remember(image, 'image')
     router.visit(path)
+
+    window.localStorage.setItem('image', JSON.stringify(image))
   }
+
+  // const handlePredict = async () => {
+  //   const image = await takePicture()
+  //   console.log(image)
+  //   setImage(image)
+  //   router.visit('/predicted')
+  // }
 
   return (
     <>
@@ -40,10 +51,13 @@ const FabMenu = () => {
         onBackdropClick={() => setPopoverOpened(false)}
       >
         <List nested>
-          <ListButton onClick={() => handleNewFace('/new-face')}>New Face</ListButton>
+          <ListButton onClick={() => handleNewFace('/new-face?mode=train')}>New Face</ListButton>
           {/* <ListButton onClick={}>New Face</ListButton> */}
-          <ListButton onClick={() => handleNewFace('/new-face?replace=1')}>Update Face</ListButton>
-          <ListButton>Predict</ListButton>
+          <ListButton onClick={() => handleNewFace('/new-face?mode=train&replace=1')}>Update Face</ListButton>
+          <ListButton
+            onClick={() => handleNewFace('/new-face?mode=predict')}
+          >Predict
+          </ListButton>
         </List>
       </Popover >
     </>

@@ -4,25 +4,22 @@ import NoImage from '@/Images/No-Image-Found.png'
 import Guest from "@/Layouts/v2/Guest"
 import { useStoreState } from '@/Redux/hook'
 import { Photo } from '@capacitor/camera'
-import { router } from '@inertiajs/react'
+import { router, useRemember } from '@inertiajs/react'
 import axios from 'axios'
 import { Button, Dialog, DialogButton, Icon, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { MdClose, MdRefresh } from 'react-icons/md'
-
-type FormData = {
-  username?: string
-  replace?: boolean
-}
 
 const NewFace = () => {
   const urlSearchParams = new URLSearchParams(window.location.search)
-  
+  const qsMode = urlSearchParams.get('mode')
+
   const { image } = useStoreState(state => state)
   const [username, setUsername] = useState('')
   const [isReplace, setReplace] = useState(!!parseInt(urlSearchParams.get('replace') || '0'))
   const [confirmOpened, setConfirmOpened] = useState(false);
-  const [imageData, setImageData] = useState<Photo | null>(image || null)
+  // const [imageData, setImageData] = useState<Photo | null>(image || null)
+  const [imageData, setImageData] = useRemember(router.restore('image') as Photo || image || null, 'image')
   const [isLoading, setLoading] = useState(false)
   const [resMessage, setResMessage] = useState<ReactNode>(null)
   const [resTitle, setResTitle] = useState('')
@@ -50,7 +47,7 @@ const NewFace = () => {
 
     setLoading(true)
     setResTitle('Loading')
-    const { data, error } = await AxiosGuest.post('/api/lbph/train', body)
+    const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body)
       .then(res => {
         console.log(res.data)
 
@@ -61,7 +58,7 @@ const NewFace = () => {
       })
       .catch((err) => {
         return {
-          error: err.response?.data?.error || { 'message': 'Something went wrong' },
+          error: err.response?.data?.error || err.response?.data || { 'message': 'Something went wrong' },
           data: null
         }
       })
@@ -73,19 +70,57 @@ const NewFace = () => {
       if (error) {
         console.log(error)
         setResTitle('Error')
-        setResMessage(Object.values(error).map((err: any, idx) => <p key={idx}>{err}</p>))
+        setResMessage(Object.values(error).map((err, idx) => <p key={idx}>{err as string}</p>))
         return
+      } else {
+        if (qsMode == 'predict') {
+          setResTitle('Success')
+          setResMessage(
+            <table>
+              {
+                Object.keys(data).map((key, idx) =>
+                  <tr key={idx}>
+                    <td>{key}</td>
+                    <td>:</td>
+                    <td>{data[key]}</td>
+                  </tr>
+                )
+              }
+            </table>
+          )
+        }
       }
     }, 2000)
 
 
-
   }
+  useEffect(() => {
+    const arr = [
+      'train',
+      'predict'
+    ]
+    console.log({ qsMode })
+    if (!(qsMode && arr.includes(qsMode)))
+      router.replace('/')
+
+    if (window.localStorage.getItem('image')) {
+      setImageData(window.localStorage.getItem('image') ? JSON.parse(window.localStorage.getItem('image') as string) : null)
+    }
+
+    return () => {
+      router.remember(router.restore('image'), 'image')
+    }
+  }, [])
 
   return (
     <Guest>
       <div className='h-screen flex flex-col p-3'>
-        <img src={imageData?.webPath || NoImage} alt="captured image" className='h-full object-cover' />
+        <img 
+          src={imageData?.webPath || NoImage}
+          alt="captured image"
+          className='h-full object-cover' 
+          onError={e => e.currentTarget.setAttribute('src', NoImage)}
+        />
         <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null) }}>
           <List>
             <ListInput
@@ -97,15 +132,17 @@ const NewFace = () => {
               tabIndex={0}
               autoFocus
             />
-            <ListItem
-              title='Update'
-              after={
-                <Toggle
-                  checked={isReplace}
-                  onChange={() => setReplace(!isReplace)}
-                />
-              }
-            />
+            {
+              qsMode === 'train' && <ListItem
+                title='Update'
+                after={
+                  <Toggle
+                    checked={isReplace}
+                    onChange={() => setReplace(!isReplace)}
+                  />
+                }
+              />
+            }
           </List>
         </form>
         <div className='flex gap-1'>
@@ -115,6 +152,8 @@ const NewFace = () => {
           <Button clear className='w-min k-color-yellow' onClick={async () => {
             const image = await takePicture()
             setImageData(image)
+            router.remember(image, 'image')
+            window.localStorage.setItem('image', JSON.stringify(image))
           }}>
             <Icon material={<MdRefresh size={44} />} ios={<MdRefresh size={44} />} className='aspect-square' />
           </Button>
@@ -126,7 +165,7 @@ const NewFace = () => {
               setResMessage(null)
             }}
           >
-            Save
+            {qsMode === 'train' ? 'Save' : 'Predict'}
           </Button>
         </div>
       </div>
@@ -142,7 +181,7 @@ const NewFace = () => {
               Cancel
             </DialogButton>
             <DialogButton strong onClick={handleSubmit} disabled={isLoading || resTitle === 'Error'}>
-              Save
+              Confirm
             </DialogButton>
           </>
         }

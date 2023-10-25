@@ -362,6 +362,11 @@ class LBPHFaceRecognitionController extends Controller
                     ->where('id', $faceLabel)
                     ->first()->username;
                 // $label = $faceLabel;
+                if ($faceConfidence >= 30) {
+                    $label = "unknown";
+                }
+
+
                 $percentage = number_format(100 - $faceConfidence, 2);
                 $percentages[] = $percentage;
                 $text = $percentage . " - " . $label;
@@ -398,5 +403,9 @@ class LBPHFaceRecognitionController extends Controller
                 'error' => $e
             ]);
         }
+    }
+
+    public function imagePredicted($filename) {
+        return response()->file(storage_path("app/scores/$filename"));
     }
 }
