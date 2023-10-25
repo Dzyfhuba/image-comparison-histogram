@@ -1,4 +1,5 @@
 import FabMenu from '@/Components/FabMenu'
+import Predicted from '@/Containers/v2/Predicted'
 import Guest from '@/Layouts/v2/Guest'
 import { PageProps } from '@/types/page'
 import { Fab, List, ListButton, ListItem, MenuList, MenuListItem, Popover } from 'konsta/react'
@@ -16,10 +17,13 @@ const Dashboard = (props: PageProps) => {
 
   return (
     <Guest>
-
-      Dashboard
-      {props.agent.os}
+      <Predicted />
+      
       <FabMenu />
+
+      <div className='-right-18 top-5 fixed bg-red-700 text-white rotate-45 w-52 text-center'>
+        {props.agent.os}
+      </div>
     </Guest>
   )
 }

@@ -17,11 +17,11 @@ const FabMenu = () => {
 
   const { takePicture } = useCamera()
 
-  const handleNewFace = async () => {
+  const handleNewFace = async (path: string) => {
     const image = await takePicture()
     console.log(image)
     setImage(image)
-    router.visit('/new-face')
+    router.visit(path)
   }
 
   return (
@@ -40,9 +40,9 @@ const FabMenu = () => {
         onBackdropClick={() => setPopoverOpened(false)}
       >
         <List nested>
-          <ListButton onClick={handleNewFace}>New Face</ListButton>
+          <ListButton onClick={() => handleNewFace('/new-face')}>New Face</ListButton>
           {/* <ListButton onClick={}>New Face</ListButton> */}
-          <ListButton>Update Face</ListButton>
+          <ListButton onClick={() => handleNewFace('/new-face?replace=1')}>Update Face</ListButton>
           <ListButton>Predict</ListButton>
         </List>
       </Popover >

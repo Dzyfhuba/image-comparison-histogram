@@ -12,6 +12,7 @@ export const useCamera = () => {
       allowEditing: true,
       source: CameraSource.Prompt,
       resultType: CameraResultType.Uri,
+      promptLabelCancel: 'Cancel',
     })
 
     return image

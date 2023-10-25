@@ -5,9 +5,9 @@ import Guest from "@/Layouts/v2/Guest"
 import { useStoreState } from '@/Redux/hook'
 import { Photo } from '@capacitor/camera'
 import { router } from '@inertiajs/react'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { Button, Dialog, DialogButton, Icon, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { MdClose, MdRefresh } from 'react-icons/md'
 
 type FormData = {
@@ -16,9 +16,11 @@ type FormData = {
 }
 
 const NewFace = () => {
+  const urlSearchParams = new URLSearchParams(window.location.search)
+  
   const { image } = useStoreState(state => state)
   const [username, setUsername] = useState('')
-  const [isReplace, setReplace] = useState(false)
+  const [isReplace, setReplace] = useState(!!parseInt(urlSearchParams.get('replace') || '0'))
   const [confirmOpened, setConfirmOpened] = useState(false);
   const [imageData, setImageData] = useState<Photo | null>(image || null)
   const [isLoading, setLoading] = useState(false)
