@@ -224,6 +224,82 @@
                     }
                 }
             }
+        },
+        "/lbph/score/{filename}": {
+            "get": {
+                "tags": [
+                    "scores"
+                ],
+                "summary": "Get score image",
+                "description": "Retrieve a score image by filename.",
+                "operationId": "3e0e30e6cad1105407da8ac874e2a64b",
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "description": "The filename of the image",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "image/jpeg": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Image not found"
+                    }
+                }
+            }
+        },
+        "/lbph/logs": {
+            "get": {
+                "tags": [
+                    "logs"
+                ],
+                "summary": "Get logs",
+                "description": "Retrieve a list of log entries",
+                "operationId": "e6c7e66f836ac98863a0e5c11840aea7",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "result_path": {
+                                                "type": "string"
+                                            },
+                                            "user_id": {
+                                                "type": "string"
+                                            },
+                                            "score": {
+                                                "type": "number",
+                                                "format": "decimal"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

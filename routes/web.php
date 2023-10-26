@@ -20,6 +20,7 @@ Route::get('/', [App\Http\Controllers\v2\DashboardController::class, 'index']);
 Route::get('/new-face', [App\Http\Controllers\v2\DashboardController::class, 'newFace']);
 
 Route::get('/lbph/score/{filename}', [App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'imagePredicted']);
+Route::get('/lbph/logs', [App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predictedLogs']);
 
 
 // require __DIR__.'/auth.php';

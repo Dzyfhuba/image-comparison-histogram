@@ -1,15 +1,18 @@
-import './bootstrap';
+import 'moment/locale/id';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import '../css/app.css';
-import 'sweetalert2/dist/sweetalert2.min.css'
+import './bootstrap';
+moment.locale('id')
 
-import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
+import { StoreProvider } from 'easy-peasy';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import React from 'react';
-import { StoreProvider } from 'easy-peasy';
+import { createRoot } from 'react-dom/client';
 import store from './Redux/store';
 
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import moment from 'moment';
 
 if (window) {
   defineCustomElements(window)

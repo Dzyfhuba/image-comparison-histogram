@@ -228,7 +228,7 @@ class LBPHFaceRecognitionController extends Controller
 
             // write $faceImages and $faceLabels to txt file in storage_path('app/results') use php native
             $file = fopen(storage_path('app/results/faceImages.txt'), 'w');
-            fwrite($file,json_encode($faceImages));
+            fwrite($file, json_encode($faceImages));
             fclose($file);
             $file = fopen(storage_path('app/results/faceLabels.txt'), 'a');
             fwrite($file, json_encode($faceLabels));
@@ -309,7 +309,7 @@ class LBPHFaceRecognitionController extends Controller
         try {
             $payload = Validator::make($request->all(), [
                 'image' => 'required|mimes:png,jpg|max:2048',
-                'username' => 'required',
+                'username' => 'required|exists:kyc,username',
             ]);
 
             if ($payload->fails()) {
@@ -430,7 +430,83 @@ class LBPHFaceRecognitionController extends Controller
         }
     }
 
-    public function imagePredicted($filename) {
-        return response()->file(storage_path("app/scores/$filename"));
+    /**
+     * @OA\Get(
+     *     path="/lbph/score/{filename}",
+     *     tags={"scores"},
+     *     summary="Get score image",
+     *     description="Retrieve a score image by filename.",
+     *     @OA\Parameter(
+     *         name="filename",
+     *         in="path",
+     *         description="The filename of the image",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\MediaType(mediaType="image/jpeg")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Image not found"
+     *     )
+     * )
+     */
+    public function imagePredicted($filename)
+    {
+        try {
+            $path = storage_path("app/scores/$filename");
+
+            if (file_exists($path)) {
+                return response()->file($path);
+            } else {
+                return response()->json(['message' => 'Image not found'], 404);
+            }
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e
+            ], 500);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/lbph/logs",
+     *     tags={"logs"},
+     *     summary="Get logs",
+     *     description="Retrieve a list of log entries",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="number"),
+     *                 @OA\Property(property="result_path", type="string"),
+     *                 @OA\Property(property="user_id", type="string"),
+     *                 @OA\Property(property="score", type="number", format="decimal"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time"),
+     *             ),
+     *         ),
+     *     ),
+     * )
+     */
+    public function predictedLogsApi(Request $request)
+    {
+        try {
+            $predictedLogs = PredictLog::query()->where(function ($query) use ($request) {
+                if ($request->query('username'))
+                    $query->where('username', $request->query('username'));
+            })
+                ->get();
+
+            return response($predictedLogs);
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e
+            ], 500);
+        }
     }
 }
