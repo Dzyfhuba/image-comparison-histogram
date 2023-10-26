@@ -12,7 +12,8 @@ class PredictLog extends Model
 
     protected $fillable = [
         'result_path',
-        'user_id'
+        'user_id',
+        'score'
     ];
     
     // has one in User

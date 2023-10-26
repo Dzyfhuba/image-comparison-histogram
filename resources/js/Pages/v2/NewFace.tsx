@@ -6,7 +6,7 @@ import Guest from "@/Layouts/v2/Guest"
 import { useStoreState } from '@/Redux/hook'
 import { Photo } from '@capacitor/camera'
 import { router, useRemember } from '@inertiajs/react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Button, Dialog, DialogButton, Icon, Link, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { MdClose, MdRefresh } from 'react-icons/md'
@@ -59,7 +59,7 @@ const NewFace = () => {
       })
       .catch((err) => {
         return {
-          error: err.response?.data?.error || err.response?.data || { 'message': 'Something went wrong' },
+          error: err.response?.data?.error as string || err.response?.data || { 'message': 'Something went wrong' },
           data: null
         }
       })
@@ -71,11 +71,20 @@ const NewFace = () => {
       if (error) {
         console.log(error)
         setResTitle('Error')
-        setResMessage(Object.values(error).map((err, idx) => <p key={idx}>{err as string}</p>))
+        if (JSON.stringify(error) === '{}') {
+          setResMessage('Internal Server Error')
+        } else {
+          setResMessage(Object.values(error).map((err, idx) => <p key={idx}>{err as string}</p>))
+        }
         return
       } else {
+        if (qsMode == 'train') {
+          setResTitle('Success')
+          setResMessage(Object.keys(data).map((key, idx) => <p key={idx}>{key}: {data[key]}</p>))
+        }
+
         if (qsMode == 'predict') {
-          window.localStorage.setItem('prediction', data.result_path)
+          window.localStorage.setItem('predicted', data.result_path)
           setResTitle('Success')
           setResMessage(
             <table>
@@ -126,11 +135,11 @@ const NewFace = () => {
         <img
           src={imageData?.webPath || NoImage}
           alt="captured image"
-          className='h-3/5 max-w-xl object-cover mx-auto border-black border rounded-md'
+          className='h-3/5 w-full max-w-xl object-cover mx-auto border-black border rounded-md'
           onError={e => e.currentTarget.setAttribute('src', NoImage)}
         />
         <div className='mt-auto'>
-          <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null) }}>
+          <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null);document.getElementById('submit')?.focus() }}>
             <List>
               <ListInput
                 floatingLabel
@@ -172,6 +181,7 @@ const NewFace = () => {
                 setConfirmOpened(true)
                 setResTitle('Confirm')
                 setResMessage(null)
+                document.getElementById('submit')?.focus()
               }}
             >
               {qsMode === 'train' ? 'Save' : 'Predict'}
@@ -199,6 +209,7 @@ const NewFace = () => {
                 router.replace('/')
               } : handleSubmit}
               disabled={isLoading || resTitle === 'Error'}
+              id='submit'
             >
               {
                 resTitle === 'Success' ? 'Back' : 'Confirm'

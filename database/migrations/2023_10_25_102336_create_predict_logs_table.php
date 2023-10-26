@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('result_path');
             $table->foreignIdFor(User::class);
+            $table->decimal('score');
             $table->timestamps();
         });
     }

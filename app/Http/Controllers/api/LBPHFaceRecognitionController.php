@@ -318,6 +318,15 @@ class LBPHFaceRecognitionController extends Controller
                 ], 400);
             }
 
+            // $this->newModelPath or no one in KYC return error message "train image first"
+            if (!file_exists($this->newModelPath) || !KYC::query()->exists()) {
+                return response()->json([
+                    'error' => [
+                        'message' => 'train image first'
+                    ]
+                ], 400);
+            }
+
             $body = $payload->validated();
 
             $this->faceRecognizer->read($this->newModelPath);
@@ -363,9 +372,9 @@ class LBPHFaceRecognitionController extends Controller
                     ->where('id', $faceLabel)
                     ->first()->username;
                 // $label = $faceLabel;
-                if ($faceConfidence >= 30) {
-                    $label = "unknown";
-                }
+                // if ($faceConfidence >= 30) {
+                //     $label = "unknown";
+                // }
 
 
                 $percentage = number_format(100 - $faceConfidence, 2);
@@ -400,20 +409,24 @@ class LBPHFaceRecognitionController extends Controller
             // store to predict log
             PredictLog::create([
                 'user_id' => $user->id,
-                'result_path' => $filename
+                'result_path' => $filename,
+                'score' => $percentages[0]
             ]);
 
             return response()->json([
                 'message' => $message,
                 'texts' => $texts,
                 'score' => $percentages,
-                'detecteds' => $detecteds,
+                'approved' => ($percentages[0] >= 30 and $isCorrect) ? 'approved' : 'rejected',
+                // 'detecteds' => $detecteds,
+                // 'is correct' => ($isCorrect) ? 'true' : 'false',
+                // 'pecentge' => $percentages[0] >= 30 ? 'true' : 'false',
                 'result_path' => $request->schemeAndHttpHost() . "/lbph/score/$filename"
             ], $isCorrect ? 200 : 400);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e
-            ]);
+            ], 500);
         }
     }
 

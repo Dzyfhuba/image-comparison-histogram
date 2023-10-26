@@ -2,8 +2,10 @@ import { Camera as CCamera, CameraSource, CameraResultType } from "@capacitor/ca
 
 export const useCamera = () => {
   const takePicture = async () => {
-    if (!await CCamera.checkPermissions())
-      await CCamera.requestPermissions()
+    // console.log(await CCamera.checkPermissions())
+    
+    // if (!await CCamera.checkPermissions())
+    //   await CCamera.requestPermissions()
 
     // camera from native web
 
