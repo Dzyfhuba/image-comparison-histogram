@@ -55,3 +55,5 @@ Route::post('/lbph/train', [\App\Http\Controllers\api\LBPHFaceRecognitionControl
 Route::post('/lbph/predict', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predict']);
 Route::get('/lbph/test', '\App\Http\Controllers\api\LBPHFaceRecognitionController@test');
 Route::get('/lbph/score/{filename}', [App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'imagePredicted']);
+
+Route::get('/lbph/reset', '\App\Http\Controllers\api\LBPHFaceRecognitionController@reset');

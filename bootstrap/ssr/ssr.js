@@ -481,13 +481,13 @@ function A(t4, r2, e2, n2) {
   var o2 = new P(t4, r2, e2, n2);
   return t4 ? o2.toString() : o2;
 }
-const appName = "Alam Rohman Garden";
+const appName = "LBPH";
 createServer(
   (page) => createInertiaApp({
     page,
     render: ReactDOMServer.renderToString,
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, /* @__PURE__ */ Object.assign({ "./Pages/Dashboard.tsx": () => import("./assets/Dashboard-de9a4933.js"), "./Pages/Members.tsx": () => import("./assets/Members-fa97cd12.js"), "./Pages/v2/Dashboard.tsx": () => import("./assets/Dashboard-61260859.js") })),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, /* @__PURE__ */ Object.assign({ "./Pages/Dashboard.tsx": () => import("./assets/Dashboard-d415e82e.js"), "./Pages/Members.tsx": () => import("./assets/Members-35af3943.js"), "./Pages/v2/Dashboard.tsx": () => import("./assets/Dashboard-11db3816.js"), "./Pages/v2/NewFace.tsx": () => import("./assets/NewFace-5aacae0e.js"), "./Pages/v2/Predict.tsx": () => import("./assets/Predict-1217caf8.js"), "./Pages/v2/Users.tsx": () => import("./assets/Users-007489f5.js") })),
     setup: ({ App, props }) => {
       global.route = (name, params, absolute) => A(name, params, absolute, {
         // @ts-expect-error

@@ -62,7 +62,7 @@ const PredictedLogs = (props: Props) => {
               <TableHead>
                 <TableRow header>
                   {
-                    columns.map((column, index) => (
+                    columns.filter(a => a !== 'id').map((column, index) => (
                       <TableCell header key={index} className='capitalize'>{column}</TableCell>
                     ))
                   }

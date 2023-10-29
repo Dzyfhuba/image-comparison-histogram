@@ -138,7 +138,7 @@ const NewFace = () => {
           className='h-3/5 w-full max-w-xl object-cover mx-auto border-black border rounded-md'
           onError={e => e.currentTarget.setAttribute('src', NoImage)}
         />
-        <div className='mt-auto'>
+        <div>
           <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null);document.getElementById('submit')?.focus() }}>
             <List>
               <ListInput

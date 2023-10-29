@@ -39,7 +39,7 @@ const FabMenu = () => {
     <>
       <Fab
         icon={<BsThreeDotsVertical />}
-        className='fixed bottom-10-safe right-10-safe rounded-full force-dark'
+        className='fixed bottom-20-safe right-10-safe rounded-full force-dark'
         id='fab-menu'
         onClick={(e) => {
           openPopover(e.currentTarget);

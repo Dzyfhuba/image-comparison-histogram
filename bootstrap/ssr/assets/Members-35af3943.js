@@ -1,6 +1,7 @@
 import { a as jsx, j as jsxs, F as Fragment } from "../ssr.js";
-import { u as useStoreState, b as useStoreActions, B as Button, c as MdImage, a as MdUpload, M as MdDelete, G as Guest } from "./Button-09698f11.js";
-import { G as GenIcon } from "./iconBase-08c2f7b6.js";
+import { B as Button, G as Guest } from "./Button-563e84df.js";
+import { u as useStoreState, a as useStoreActions } from "./hook-282f7307.js";
+import { G as GenIcon, b as MdImage, a as MdUpload, M as MdDelete } from "./index.esm-569eca09.js";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
@@ -185,6 +186,10 @@ const Form = (props) => {
   );
 };
 const store = createStore({
+  image: void 0,
+  setImage: action((state, payload) => {
+    state.image = payload;
+  }),
   members: [],
   setMembers: action((state, payload) => {
     state.members = payload;

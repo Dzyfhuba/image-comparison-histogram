@@ -264,7 +264,7 @@
                 ],
                 "summary": "Get logs",
                 "description": "Retrieve a list of log entries",
-                "operationId": "e6c7e66f836ac98863a0e5c11840aea7",
+                "operationId": "3761c17dfdcbbfb0198ae85a34c01c76",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -294,6 +294,34 @@
                                         },
                                         "type": "object"
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/lbph/reset": {
+            "get": {
+                "tags": [
+                    "reset"
+                ],
+                "summary": "Reset LBPH Face Recognition",
+                "description": "Reset the LBPH Face Recognition model.",
+                "operationId": "b93da8eded1dce3c9bab6aef4a9ba691",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "reset success"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }

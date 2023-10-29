@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Psy\CodeCleaner\NoReturnValue;
 use Validator;
 use Str;
+use DB;
 use App\Models\KYC;
 use App\Models\TrainLog;
 use App\Models\PredictLog;
@@ -175,7 +176,7 @@ class LBPHFaceRecognitionController extends Controller
             if (!$exist) {
                 $kyc = KYC::create([
                     ...$body,
-                    'trained_image' => $fullPath
+                    'trained_image' => $newFileName
                 ]);
             } else {
                 $kyc = KYC::query()->where('username', $body['username'])->first();
@@ -184,7 +185,7 @@ class LBPHFaceRecognitionController extends Controller
                 }
                 KYC::query()->where('username', $body['username'])
                     ->update([
-                        'trained_image' => $fullPath
+                        'trained_image' => $newFileName
                     ]);
                 $kyc = KYC::query()->where('username', $body['username'])->first();
             }
@@ -503,6 +504,56 @@ class LBPHFaceRecognitionController extends Controller
                 ->get();
 
             return response($predictedLogs);
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e
+            ], 500);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/lbph/reset",
+     *     tags={"reset"},
+     *     summary="Reset LBPH Face Recognition",
+     *     description="Reset the LBPH Face Recognition model.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="reset success"
+     *             ),
+     *         ),
+     *     ),
+     * )
+     */
+    public function reset()
+    {
+        try {
+            if (file_exists($this->newModelPath))
+                unlink($this->newModelPath);
+
+            $kycs = KYC::all();
+            foreach ($kycs as $kyc) {
+                if (file_exists($kyc->trained_image))
+                    unlink($kyc->trained_image);
+            }
+
+            // delete and reset id
+            TrainLog::query()->delete();
+            PredictLog::query()->delete();
+            KYC::query()->delete();
+            
+            DB::statement("ALTER TABLE train_logs AUTO_INCREMENT = 1");
+            DB::statement("ALTER TABLE predict_logs AUTO_INCREMENT = 1");
+            DB::statement("ALTER TABLE kyc AUTO_INCREMENT = 1");
+
+            return response()->json([
+                'message' => 'reset success'
+            ]);
         } catch (\Exception $e) {
             return response([
                 'error' => $e
