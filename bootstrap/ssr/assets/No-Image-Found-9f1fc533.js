@@ -14,7 +14,7 @@ const useCamera = () => {
     takePicture
   };
 };
-const NoImage = "/build/assets/No-Image-Found-441660e7.png";
+const NoImage = "http://localhost/build/assets/No-Image-Found-441660e7.png";
 export {
   NoImage as N,
   useCamera as u

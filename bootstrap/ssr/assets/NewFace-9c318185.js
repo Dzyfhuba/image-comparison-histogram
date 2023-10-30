@@ -1,11 +1,12 @@
 import { j as jsxs, a as jsx, F as Fragment } from "../ssr.js";
 import axios from "axios";
-import { N as NoImage, u as useCamera } from "./No-Image-Found-86e13b26.js";
-import { G as Guest } from "./Guest-926b84ae.js";
+import { N as NoImage, u as useCamera } from "./No-Image-Found-9f1fc533.js";
+import { G as Guest } from "./Guest-284359ca.js";
 import { u as useStoreState } from "./hook-282f7307.js";
 import { useRemember, router } from "@inertiajs/react";
 import { List, ListInput, ListItem, Toggle, Button, Icon, Dialog, Preloader, DialogButton } from "konsta/react";
 import { useState, useEffect } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { e as MdClose, f as MdRefresh } from "./index.esm-569eca09.js";
 import "react/jsx-runtime";
 import "react-dom/server";
@@ -13,7 +14,7 @@ import "@inertiajs/react/server";
 import "@capacitor/camera";
 import "easy-peasy";
 const AxiosGuest = axios.create({
-  baseURL: "http://localhost:81"
+  baseURL: "http://localhost"
 });
 const isValidUrl = (urlString) => {
   try {
@@ -23,7 +24,7 @@ const isValidUrl = (urlString) => {
     return false;
   }
 };
-const NewFace = () => {
+const NewFace = (props) => {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const qsMode = urlSearchParams.get("mode");
   const { image } = useStoreState((state) => state);
@@ -35,23 +36,32 @@ const NewFace = () => {
   const [resMessage, setResMessage] = useState(null);
   const [resTitle, setResTitle] = useState("");
   const { takePicture } = useCamera();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const handleSubmit = async () => {
+    if (!executeRecaptcha) {
+      return;
+    }
+    const token = await executeRecaptcha("submit");
     const body = new FormData();
     body.append("username", username || "");
     body.append("replace", isReplace ? "true" : "false");
     if (imageData == null ? void 0 : imageData.webPath) {
-      const res = await axios.get(imageData == null ? void 0 : imageData.webPath, { responseType: "blob" });
-      console.log(res.data);
-      body.append("image", res.data);
-      const file = new File([res.data], "image.png", { type: "image/jpg" });
+      const { res, error: error2 } = await axios.get(imageData == null ? void 0 : imageData.webPath, { responseType: "blob" }).then((r) => {
+        return { res: r, error: null };
+      }).catch((e) => {
+        return { error: e, res: null };
+      });
+      body.append("image", res == null ? void 0 : res.data);
+      const file = new File([res == null ? void 0 : res.data], "image.png", { type: "image/jpg" });
       body.append("image", file);
-      console.log(file);
-      console.log(res.data);
     }
     setLoading(true);
     setResTitle("Loading");
-    const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body).then((res) => {
-      console.log(res.data);
+    const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body, {
+      "headers": {
+        "X-Token": token
+      }
+    }).then((res) => {
       return {
         data: res.data,
         error: null
@@ -66,7 +76,6 @@ const NewFace = () => {
     setTimeout(() => {
       setLoading(false);
       if (error) {
-        console.log(error);
         setResTitle("Error");
         if (JSON.stringify(error) === "{}") {
           setResMessage("Internal Server Error");
@@ -107,7 +116,6 @@ const NewFace = () => {
       "train",
       "predict"
     ];
-    console.log({ qsMode });
     if (!(qsMode && arr.includes(qsMode)))
       router.replace("/");
     if (window.localStorage.getItem("image")) {

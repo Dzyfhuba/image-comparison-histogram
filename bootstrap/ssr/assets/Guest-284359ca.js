@@ -1,10 +1,10 @@
 import { a as jsx, j as jsxs, F as Fragment } from "../ssr.js";
 import { Navbar as Navbar$1, App, Page, Tabbar, TabbarLink, Icon } from "konsta/react";
+import { router } from "@inertiajs/react";
 import { useState } from "react";
 import { G as GenIcon, g as MdCameraFront } from "./index.esm-569eca09.js";
-import { router } from "@inertiajs/react";
-const LogoImageLight = "/build/assets/logo-long-light-72e64892.png";
-const LogoImageDark = "/build/assets/logo-long-dark-70b0c989.png";
+const LogoImageLight = "http://localhost/build/assets/logo-long-light-72e64892.png";
+const LogoImageDark = "http://localhost/build/assets/logo-long-dark-70b0c989.png";
 const Navbar = () => {
   return /* @__PURE__ */ jsx(
     Navbar$1,
@@ -43,6 +43,7 @@ const Guest = (props) => {
           Tabbar,
           {
             className: "fixed bottom-0",
+            style: { zIndex: 5 },
             hidden: !["/", "/users"].includes(activePath),
             children: [
               /* @__PURE__ */ jsx(

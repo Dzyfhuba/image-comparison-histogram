@@ -1,5 +1,5 @@
 import { j as jsxs, a as jsx } from "../ssr.js";
-import { G as Guest } from "./Guest-926b84ae.js";
+import { G as Guest } from "./Guest-284359ca.js";
 import { Table, TableHead, TableRow, TableCell, TableBody } from "konsta/react";
 import "react/jsx-runtime";
 import "react-dom/server";

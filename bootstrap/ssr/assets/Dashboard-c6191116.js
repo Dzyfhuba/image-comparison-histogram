@@ -45,7 +45,6 @@ const Dashboard = () => {
     const member2 = await axios.get(`/api/members/${memberId}`).then((res) => {
       return res.data;
     }).catch((err) => {
-      console.error(err);
       Swal.fire({
         title: "Error 500",
         icon: "error"
@@ -58,7 +57,6 @@ const Dashboard = () => {
     fetchData((selectedMember == null ? void 0 : selectedMember.value) || 0);
   }, [selectedMember]);
   const onChange = (imageList, addUpdateIndex) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
   const handleCalculate = async () => {
@@ -74,7 +72,6 @@ const Dashboard = () => {
       return res.data;
     }).catch((err) => {
       var _a;
-      console.error(err);
       Swal.fire({
         title: `Error ${((_a = err.response) == null ? void 0 : _a.status) || 500}`,
         icon: "error"

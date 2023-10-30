@@ -51,8 +51,11 @@ Route::post('/members/compare_similarity', [\App\Http\Controllers\api\MemberCont
 
 Route::post('/compare', [\App\Http\Controllers\api\CompareController::class, 'compare']);
 
-Route::post('/lbph/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);
-Route::post('/lbph/predict', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predict']);
+// route group with middleware
+Route::group(['middleware' => ['recaptcha']], function () {
+    Route::post('/lbph/train', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'train']);
+    Route::post('/lbph/predict', [\App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'predict']);
+});
 Route::get('/lbph/test', '\App\Http\Controllers\api\LBPHFaceRecognitionController@test');
 Route::get('/lbph/score/{filename}', [App\Http\Controllers\api\LBPHFaceRecognitionController::class, 'imagePredicted']);
 

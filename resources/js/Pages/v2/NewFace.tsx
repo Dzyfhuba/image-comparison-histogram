@@ -45,15 +45,15 @@ const NewFace = (props: PageProps) => {
     }
 
     // verify token
-    const res = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
-      secret: import.meta.env.VITE_RECAPTCHA_SECRET_KEY,
-      response: token,
-      remoteip: props.request.ip
-    })
+    // const res = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
+    //   secret: import.meta.env.VITE_RECAPTCHA_SECRET_KEY,
+    //   response: token,
+    //   remoteip: props.request.ip
+    // })
 
-    console.table(res)
+    // console.table(res)
 
-    return
+    // return
 
     const body = new FormData()
 
@@ -61,21 +61,31 @@ const NewFace = (props: PageProps) => {
     body.append('replace', isReplace ? 'true' : 'false')
     if (imageData?.webPath) {
       // fetch blob file with axios
-      const res = await axios.get(imageData?.webPath, { responseType: 'blob' })
-      console.log(res.data)
+      const { res, error } = await axios.get(imageData?.webPath, { responseType: 'blob' })
+        .then(r => {
+          return { res: r, error: null }
+        }) 
+        .catch(e => {
+          return { error: e, res: null }
+        })
+      console.log(res?.data)
 
-      body.append('image', res.data)
+      body.append('image', res?.data)
       // blob to file image png and append to form data
-      const file = new File([res.data], 'image.png', { type: 'image/jpg' })
+      const file = new File([res?.data], 'image.png', { type: 'image/jpg' })
       body.append('image', file)
       console.log(file)
 
-      console.log(res.data)
+      console.log(res?.data)
     }
 
     setLoading(true)
     setResTitle('Loading')
-    const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body)
+    const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body, {
+      'headers': {
+        'X-Token': token,
+      }
+    })
       .then(res => {
         console.log(res.data)
 
@@ -85,6 +95,7 @@ const NewFace = (props: PageProps) => {
         }
       })
       .catch((err) => {
+        console.error(err.response)
         return {
           error: err.response?.data?.error as string || err.response?.data || { 'message': 'Something went wrong' },
           data: null

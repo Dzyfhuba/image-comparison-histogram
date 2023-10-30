@@ -26,4 +26,9 @@ export default defineConfig({
   ssr: {
     noExternal: ['usehooks-ts', 'react-icons']
   },
+  // remove console log when build
+  esbuild: {
+    minify: true,
+    drop: ['console', 'debugger']
+  },
 });

@@ -8,7 +8,7 @@ import React from 'react'
 const Dashboard = (props: PageProps) => {
 
   return (
-    <Guest>
+    <Guest agent={props.agent}>
       <Predicted />
       <PredictedLogs data={props.predictedLogs} />
       

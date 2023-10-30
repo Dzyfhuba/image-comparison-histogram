@@ -32,7 +32,7 @@ const Label = (props) => {
 };
 const Form = (props) => {
   var _a;
-  const { members } = useStoreState((state) => state);
+  useStoreState((state) => state);
   const { fetchMembers } = useStoreActions((actions) => actions);
   const [username, setUsername] = useState("");
   const [images, setImages] = useState([]);
@@ -41,13 +41,11 @@ const Form = (props) => {
     images: ""
   });
   const onChange = (imageList, addUpdateIndex) => {
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
   const onSubmit = async (e) => {
     var _a2;
     e.preventDefault();
-    console.log({ members, images });
     if (!(images.length && username !== "") && props.mode === "create") {
       setError({
         images: !images.length ? "Upload One" : "",
@@ -68,7 +66,6 @@ const Form = (props) => {
     });
     Swal.showLoading();
     axios.post(props.mode === "create" ? "/api/members" : `/api/members/${(_a2 = props.member) == null ? void 0 : _a2.id}`, body).then((res) => {
-      console.log(res.data);
       fetchMembers();
       Swal.hideLoading();
       Swal.update({
@@ -77,7 +74,6 @@ const Form = (props) => {
       });
     }).catch((err) => {
       var _a3;
-      console.error(err);
       Swal.hideLoading();
       Swal.update({
         icon: "error",
@@ -106,7 +102,6 @@ const Form = (props) => {
       member: ""
     });
   };
-  console.log(props.member);
   return /* @__PURE__ */ jsxs(
     "form",
     {
@@ -198,7 +193,6 @@ const store = createStore({
     const data = await axios.get("/api/members").then((res) => {
       return res.data;
     }).catch((err) => {
-      console.error(err);
       return [];
     });
     actions.setMembers(data);
@@ -208,7 +202,6 @@ const CreateButton = () => {
   useStoreActions((actions) => actions);
   const ReactSwal = withReactContent(Swal);
   const handleClick = (e) => {
-    console.log(e.target);
     ReactSwal.fire({
       title: "Add New Member",
       showConfirmButton: false,
@@ -235,7 +228,6 @@ const Members = () => {
     const members2 = await axios.get("/api/members").then((res) => {
       return res.data;
     }).catch((error) => {
-      console.error(error);
       return [];
     });
     setMembers(members2);
@@ -264,7 +256,6 @@ const Members = () => {
         const success = await axios.delete(`/api/members/${member.id}`).then(() => {
           return true;
         }).catch((err) => {
-          console.error(err);
           return false;
         });
         return success;

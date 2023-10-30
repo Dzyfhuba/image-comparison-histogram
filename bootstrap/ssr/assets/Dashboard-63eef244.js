@@ -1,5 +1,5 @@
 import { j as jsxs, F as Fragment, a as jsx } from "../ssr.js";
-import { u as useCamera, N as NoImage } from "./No-Image-Found-86e13b26.js";
+import { u as useCamera, N as NoImage } from "./No-Image-Found-9f1fc533.js";
 import { a as useStoreActions } from "./hook-282f7307.js";
 import { router } from "@inertiajs/react";
 import { Fab, Popover, List, ListButton, Card, Table, TableHead, TableRow, TableCell, TableBody, Sheet, Toolbar, Link } from "konsta/react";
@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { G as GenIcon } from "./index.esm-569eca09.js";
 import moment from "moment";
 import "moment/locale/id.js";
-import { G as Guest } from "./Guest-926b84ae.js";
+import { G as Guest } from "./Guest-284359ca.js";
 import "react/jsx-runtime";
 import "react-dom/server";
 import "@inertiajs/react/server";
@@ -27,7 +27,6 @@ const FabMenu = () => {
   const { takePicture } = useCamera();
   const handleNewFace = async (path) => {
     const image = await takePicture();
-    console.log(image);
     setImage(image);
     router.visit(path);
     window.localStorage.setItem("image", JSON.stringify(image));

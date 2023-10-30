@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('predict_logs', function (Blueprint $table) {
+        Schema::create('recaptcha_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('result_path');
-            $table->foreignIdFor(User::class);
-            $table->decimal('score');
+            $table->string('remote_ip');
+            $table->boolean('success');
+            $table->text('error_codes')->nullable();
+            $table->string('hostname')->nullable();
+            $table->string('challenge_ts')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('predict_logs');
+        Schema::dropIfExists('recaptcha_logs');
     }
 };

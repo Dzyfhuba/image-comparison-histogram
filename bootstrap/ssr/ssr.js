@@ -487,7 +487,7 @@ createServer(
     page,
     render: ReactDOMServer.renderToString,
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, /* @__PURE__ */ Object.assign({ "./Pages/Dashboard.tsx": () => import("./assets/Dashboard-d415e82e.js"), "./Pages/Members.tsx": () => import("./assets/Members-35af3943.js"), "./Pages/v2/Dashboard.tsx": () => import("./assets/Dashboard-11db3816.js"), "./Pages/v2/NewFace.tsx": () => import("./assets/NewFace-5aacae0e.js"), "./Pages/v2/Predict.tsx": () => import("./assets/Predict-1217caf8.js"), "./Pages/v2/Users.tsx": () => import("./assets/Users-007489f5.js") })),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.tsx`, /* @__PURE__ */ Object.assign({ "./Pages/Dashboard.tsx": () => import("./assets/Dashboard-c6191116.js"), "./Pages/Members.tsx": () => import("./assets/Members-8263a1f1.js"), "./Pages/v2/Dashboard.tsx": () => import("./assets/Dashboard-63eef244.js"), "./Pages/v2/NewFace.tsx": () => import("./assets/NewFace-9c318185.js"), "./Pages/v2/Predict.tsx": () => import("./assets/Predict-1217caf8.js"), "./Pages/v2/Users.tsx": () => import("./assets/Users-befeac54.js") })),
     setup: ({ App, props }) => {
       global.route = (name, params, absolute) => A(name, params, absolute, {
         // @ts-expect-error
