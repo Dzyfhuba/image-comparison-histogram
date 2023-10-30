@@ -70,11 +70,15 @@ const NewFace = (props: PageProps) => {
         })
       console.log(res?.data)
 
+      // compress image
+      
+
       body.append('image', res?.data)
       // blob to file image png and append to form data
       const file = new File([res?.data], 'image.png', { type: 'image/jpg' })
+      
       body.append('image', file)
-      console.log(file)
+      console.log({ file })
 
       console.log(res?.data)
     }

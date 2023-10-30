@@ -29,6 +29,6 @@ export default defineConfig({
   // remove console log when build
   esbuild: {
     minify: true,
-    drop: ['console', 'debugger']
+    // drop: ['console', 'debugger']
   },
 });
