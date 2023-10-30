@@ -10,8 +10,7 @@ export const useCamera = () => {
     // camera from native web
 
     const image = await CCamera.getPhoto({
-      quality: 80,
-      height: 640,
+      quality: 100,
       allowEditing: true,
       source: CameraSource.Prompt,
       resultType: CameraResultType.Uri,

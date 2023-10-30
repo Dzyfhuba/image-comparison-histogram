@@ -33,6 +33,8 @@ const NewFace = (props: PageProps) => {
   const { executeRecaptcha } = useGoogleReCaptcha()
 
   const handleSubmit = async () => {
+    setLoading(true)
+    setResTitle('Loading')
     if (!executeRecaptcha) {
       console.error('Execute recaptcha not found')
       return
@@ -65,7 +67,7 @@ const NewFace = (props: PageProps) => {
       const { res, error } = await axios.get(imageData?.webPath, { responseType: 'blob' })
         .then(r => {
           return { res: r, error: null }
-        }) 
+        })
         .catch(e => {
           return { error: e, res: null }
         })
@@ -78,19 +80,27 @@ const NewFace = (props: PageProps) => {
         maxWidthOrHeight: 1000,
       })
       console.log({ compressed })
+
+      // compressed blob to Photo type
+      const compressedPhoto: Photo = {
+        webPath: URL.createObjectURL(compressed),
+        format: 'image/png',
+        base64String: await imageCompression.getDataUrlFromFile(compressed),
+        saved: false,
+      }
+      setImageData(compressedPhoto)
+      
       // body.append('image', res?.data)
       body.append('image', compressed)
       // blob to file image png and append to form data
       // const file = new File([res?.data], 'image.png', { type: 'image/jpg' })
-      
+
       // body.append('image', file)
       // console.log({ file })
 
       console.log(res?.data)
     }
 
-    setLoading(true)
-    setResTitle('Loading')
     const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body, {
       'headers': {
         'X-Token': token,
@@ -225,7 +235,7 @@ const NewFace = (props: PageProps) => {
             </Button>
             <Button
               onClick={() => {
-              // setShowDialog(true)
+                // setShowDialog(true)
                 setConfirmOpened(true)
                 setResTitle('Confirm')
                 setResMessage(null)
