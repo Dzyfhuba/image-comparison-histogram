@@ -8,6 +8,7 @@ import { PageProps } from '@/types/page'
 import { Photo } from '@capacitor/camera'
 import { router, useRemember } from '@inertiajs/react'
 import axios, { AxiosError } from 'axios'
+import imageCompression from 'browser-image-compression'
 import { Button, Dialog, DialogButton, Icon, Link, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
@@ -70,15 +71,20 @@ const NewFace = (props: PageProps) => {
         })
       console.log(res?.data)
 
-      // compress image
-      
-
-      body.append('image', res?.data)
+      // compress image under 2mb
+      const compressed = await imageCompression(res?.data, {
+        maxSizeMB: 2,
+        useWebWorker: true,
+        maxWidthOrHeight: 1000,
+      })
+      console.log({ compressed })
+      // body.append('image', res?.data)
+      body.append('image', compressed)
       // blob to file image png and append to form data
-      const file = new File([res?.data], 'image.png', { type: 'image/jpg' })
+      // const file = new File([res?.data], 'image.png', { type: 'image/jpg' })
       
-      body.append('image', file)
-      console.log({ file })
+      // body.append('image', file)
+      // console.log({ file })
 
       console.log(res?.data)
     }
