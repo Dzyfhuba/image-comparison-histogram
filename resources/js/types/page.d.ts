@@ -4,6 +4,9 @@ type PageProps = {
   agent: {
     os: string
   }
+  request: {
+    ip: string
+  }
   predictedLogs: PredictedLog[],
   users: {
     id: number

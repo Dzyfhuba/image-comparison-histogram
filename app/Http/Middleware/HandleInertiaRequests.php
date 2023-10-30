@@ -43,6 +43,9 @@ class HandleInertiaRequests extends Middleware
             },
             'agent' => [
                 'os' => $agentOs->platform(),
+            ],
+            'request' => [
+                'ip' => $request->ip(),
             ]
         ]);
     }

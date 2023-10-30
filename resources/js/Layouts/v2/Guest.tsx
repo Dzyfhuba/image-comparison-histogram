@@ -1,12 +1,10 @@
 import Navbar from '@/Containers/v2/Navbar'
-import { Icon, Page, Tabbar, TabbarLink } from 'konsta/react'
-import React, { useEffect, useState } from 'react'
-import { App as KonstaApp } from 'konsta/react'
 import { PageProps } from '@/types/page'
-import { MdCameraFront, MdEmail, MdFileUpload, MdToday } from 'react-icons/md'
-import { FaUsers } from 'react-icons/fa'
 import { router } from '@inertiajs/react'
-import { BsCalendar, BsCloudUploadFill, BsEnvelopeFill } from 'react-icons/bs'
+import { Icon, App as KonstaApp, Page, Tabbar, TabbarLink } from 'konsta/react'
+import React, { useState } from 'react'
+import { FaUsers } from 'react-icons/fa'
+import { MdCameraFront } from 'react-icons/md'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   agent?: PageProps['agent']
@@ -33,6 +31,7 @@ const Guest = (props: Props) => {
       </main>
       <Tabbar
         className='fixed bottom-0'
+        style={{ zIndex: 5 }}
         hidden={!['/', '/users'].includes(activePath)}
       >
         <TabbarLink

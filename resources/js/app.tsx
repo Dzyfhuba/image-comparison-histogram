@@ -13,6 +13,7 @@ import store from './Redux/store';
 
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import moment from 'moment';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 if (window) {
   defineCustomElements(window)
@@ -28,9 +29,13 @@ createInertiaApp({
     const root = createRoot(el);
 
     root.render(
-      <StoreProvider store={store}>
-        <App {...props} />
-      </StoreProvider>
+      <GoogleReCaptchaProvider
+        reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+      >
+        <StoreProvider store={store}>
+          <App {...props} />
+        </StoreProvider>
+      </GoogleReCaptchaProvider>
     );
   },
   progress: {

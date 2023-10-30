@@ -4,14 +4,16 @@ import { isValidUrl } from '@/Actions/Str'
 import NoImage from '@/Images/No-Image-Found.png'
 import Guest from "@/Layouts/v2/Guest"
 import { useStoreState } from '@/Redux/hook'
+import { PageProps } from '@/types/page'
 import { Photo } from '@capacitor/camera'
 import { router, useRemember } from '@inertiajs/react'
 import axios, { AxiosError } from 'axios'
 import { Button, Dialog, DialogButton, Icon, Link, List, ListInput, ListItem, Preloader, Toggle } from 'konsta/react'
 import React, { ReactNode, useEffect, useState } from 'react'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { MdClose, MdRefresh } from 'react-icons/md'
 
-const NewFace = () => {
+const NewFace = (props: PageProps) => {
   const urlSearchParams = new URLSearchParams(window.location.search)
   const qsMode = urlSearchParams.get('mode')
 
@@ -27,7 +29,32 @@ const NewFace = () => {
 
   const { takePicture } = useCamera()
 
+  const { executeRecaptcha } = useGoogleReCaptcha()
+
   const handleSubmit = async () => {
+    if (!executeRecaptcha) {
+      console.error('Execute recaptcha not found')
+      return
+    }
+
+    const token = await executeRecaptcha('submit')
+    console.log({ token })
+
+    if (!token) {
+      console.error('Token not found')
+    }
+
+    // verify token
+    const res = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
+      secret: import.meta.env.VITE_RECAPTCHA_SECRET_KEY,
+      response: token,
+      remoteip: props.request.ip
+    })
+
+    console.table(res)
+
+    return
+
     const body = new FormData()
 
     body.append('username', username || '')
@@ -108,9 +135,9 @@ const NewFace = () => {
         }
       }
     }, 2000)
-
-
   }
+
+
   useEffect(() => {
     const arr = [
       'train',
@@ -139,7 +166,7 @@ const NewFace = () => {
           onError={e => e.currentTarget.setAttribute('src', NoImage)}
         />
         <div>
-          <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null);document.getElementById('submit')?.focus() }}>
+          <form onSubmit={(e) => { e.preventDefault(); setConfirmOpened(true); setResTitle('Confirm'); setResMessage(null); document.getElementById('submit')?.focus() }}>
             <List>
               <ListInput
                 floatingLabel
@@ -177,7 +204,7 @@ const NewFace = () => {
             </Button>
             <Button
               onClick={() => {
-                // setShowDialog(true)
+              // setShowDialog(true)
                 setConfirmOpened(true)
                 setResTitle('Confirm')
                 setResMessage(null)

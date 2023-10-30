@@ -19,3 +19,7 @@ button * {
         @apply bg-md-dark-primary-container text-md-dark-primary
     }
 }
+
+.grecaptcha-badge {
+    top: 90px !important;
+}
