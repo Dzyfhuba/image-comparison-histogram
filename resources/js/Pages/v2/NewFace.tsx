@@ -34,7 +34,7 @@ const NewFace = (props: PageProps) => {
 
   const handleSubmit = async () => {
     setLoading(true)
-    setResTitle('Loading')
+    setResTitle('Processing')
     if (!executeRecaptcha) {
       console.error('Execute recaptcha not found')
       return
@@ -78,6 +78,10 @@ const NewFace = (props: PageProps) => {
         maxSizeMB: 2,
         useWebWorker: true,
         maxWidthOrHeight: 1000,
+        onProgress: (progress) => {
+          if(progress<100) setResTitle('Compressing')
+          else setResTitle('Uploading')
+        }
       })
       console.log({ compressed })
 
@@ -98,7 +102,7 @@ const NewFace = (props: PageProps) => {
       // body.append('image', file)
       // console.log({ file })
 
-      console.log(res?.data)
+      // console.log(res?.data)
     }
 
     const { data, error } = await AxiosGuest.post(`/api/lbph/${qsMode}`, body, {

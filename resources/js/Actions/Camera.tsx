@@ -1,4 +1,4 @@
-import { Camera as CCamera, CameraSource, CameraResultType } from "@capacitor/camera"
+import { Camera as CCamera, CameraSource, CameraResultType, CameraDirection } from "@capacitor/camera"
 
 export const useCamera = () => {
   const takePicture = async () => {
@@ -15,6 +15,7 @@ export const useCamera = () => {
       source: CameraSource.Prompt,
       resultType: CameraResultType.Uri,
       promptLabelCancel: 'Cancel',
+      correctOrientation: true,
     })
 
     return image
