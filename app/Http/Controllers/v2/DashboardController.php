@@ -16,9 +16,12 @@ class DashboardController extends Controller
                     $query->where('username', $request->query('username'));
             })
             ->orderBy('created_at', 'desc')
-            ->join('kyc', 'kyc.id', 'predict_logs.user_id')
-            ->select('predict_logs.*', 'kyc.username')
+            ->leftJoin('kyc as a', 'a.id', 'predict_logs.user_id')
+            ->leftJoin('kyc as b', 'b.id', 'predict_logs.detected_user_id')
+            ->select('predict_logs.*', 'a.username', 'b.username as detected')
             ->get();
+
+            // dd($predictedLogs);
 
         return inertia('v2/Dashboard', [
             'predictedLogs' => $predictedLogs

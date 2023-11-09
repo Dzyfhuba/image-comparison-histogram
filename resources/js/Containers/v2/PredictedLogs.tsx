@@ -15,6 +15,7 @@ const PredictedLogs = (props: Props) => {
     'result path',
     'user id',
     'score',
+    'detected',
     'diff time',
     'created at',
   ]
@@ -93,6 +94,7 @@ const PredictedLogs = (props: Props) => {
                       </a> */}
                       </TableCell>
                       <TableCell>{log.username}</TableCell>
+                      <TableCell>{log.detected}</TableCell>
                       <TableCell>{log.score}</TableCell>
                       <TableCell>{diffDate(log.created_at)}</TableCell>
                       <TableCell>{moment(log.created_at).format('DD MMM YYYY HH:mm:ss')}</TableCell>
