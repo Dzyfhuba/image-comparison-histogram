@@ -411,7 +411,8 @@ class LBPHFaceRecognitionController extends Controller
             PredictLog::create([
                 'user_id' => $user->id,
                 'result_path' => $filename,
-                'score' => $percentages[0]
+                'score' => $percentages[0],
+                'detected_user_id' => $detecteds[0],
             ]);
 
             return response()->json([
