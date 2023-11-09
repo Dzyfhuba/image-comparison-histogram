@@ -95,7 +95,7 @@ const PredictedLogs = (props: Props) => {
                       </TableCell>
                       <TableCell>{log.username}</TableCell>
                       <TableCell>{log.detected}</TableCell>
-                      <TableCell>{log.score}</TableCell>
+                      <TableCell className={log.username !== log.detected ? 'text-red-500' : ''}>{log.score}</TableCell>
                       <TableCell>{diffDate(log.created_at)}</TableCell>
                       <TableCell>{moment(log.created_at).format('DD MMM YYYY HH:mm:ss')}</TableCell>
                     </TableRow>

@@ -16,6 +16,7 @@ export const useCamera = () => {
       resultType: CameraResultType.Uri,
       promptLabelCancel: 'Cancel',
       correctOrientation: true,
+      direction: CameraDirection.Front,
     })
 
     return image
