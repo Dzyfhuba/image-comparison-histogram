@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('predict_logs', function (Blueprint $table) {
-            $table->string('detected_user_id')->nullable();
+            $table->unsignedBigInteger('detected_user_id')->nullable();
         });
     }
 

@@ -358,6 +358,8 @@ class LBPHFaceRecognitionController extends Controller
 
             equalizeHist($gray, $gray);
 
+            $detectedUserIds = [];
+
             // by detected face
             foreach ($faces as $key => $face) {
                 $faceImage = $gray->getImageROI($face);
@@ -366,12 +368,14 @@ class LBPHFaceRecognitionController extends Controller
 
                 //predict
                 $faceLabel = $this->faceRecognizer->predict($faceImage, $faceConfidence);
+                $detectedUserIds[] = $faceLabel;
                 $label = KYC::query()
                     ->select([
                         'username',
                     ])
                     ->where('id', $faceLabel)
                     ->first()->username;
+                    
                 // $label = $faceLabel;
                 // if ($faceConfidence >= 30) {
                 //     $label = "unknown";
@@ -412,7 +416,7 @@ class LBPHFaceRecognitionController extends Controller
                 'user_id' => $user->id,
                 'result_path' => $filename,
                 'score' => $percentages[0],
-                'detected_user_id' => $detecteds[0],
+                'detected_user_id' => $detectedUserIds[0],
             ]);
 
             return response()->json([
@@ -420,7 +424,7 @@ class LBPHFaceRecognitionController extends Controller
                 'texts' => $texts,
                 'score' => $percentages,
                 'approved' => ($percentages[0] >= 30 and $isCorrect) ? 'approved' : 'rejected',
-                // 'detecteds' => $detecteds,
+                'detecteds' => $detectedUserIds[0],
                 // 'is correct' => ($isCorrect) ? 'true' : 'false',
                 // 'pecentge' => $percentages[0] >= 30 ? 'true' : 'false',
                 'result_path' => $request->schemeAndHttpHost() . "/lbph/score/$filename"
