@@ -14,8 +14,8 @@ const PredictedLogs = (props: Props) => {
     'id',
     'result path',
     'user id',
-    'score',
     'detected',
+    'score',
     'diff time',
     'created at',
   ]

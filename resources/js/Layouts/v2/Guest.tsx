@@ -27,6 +27,7 @@ const Guest = (props: Props) => {
         // className='min-h-[150vh]'
         >
           {props.children}
+          <div className='h-12' />
         </Page>
       </main>
       <Tabbar
