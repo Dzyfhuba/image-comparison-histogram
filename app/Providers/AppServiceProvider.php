@@ -10,6 +10,10 @@ use Illuminate\Support\ServiceProvider;
  *     title="Image Comparison using Cosine Similarity Method",
  * )
  * @OA\Server(
+ *     url="https://lbph.hafidzubaidillah.com/api",
+ *     description="lbph.hafidzubaidillah.com"
+ * )
+ * @OA\Server(
  *     url="http://localhost:8000/api",
  *     description="local host"
  * )
